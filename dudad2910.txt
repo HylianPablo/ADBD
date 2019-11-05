@@ -12,6 +12,8 @@ que hacemos:
 	opcion 1: dos atributos tipo lista
 	opcion 2: clase tarifa con 3 roles 1..* -- 1 y 2 atributos (max y real)
 
+	opcion 3: hacemos al final esta, tres atributos y restriccion
+
 preguntar a gente atributos de gestor
 
-abonos media/larga duracion? impicaria revisar relacion vehiculo abono por lo de tener 5 coches y dos cambios AL AÑO.
+abonos media/larga duracion? impicaria revisar relacion vehiculo abono por lo de tener 5 coches y dos cambios AL AÑO. --> Abonos larga/media se refieren a 24/12 h.
