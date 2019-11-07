@@ -13,3 +13,5 @@ que hacemos:
 	opcion 2: clase tarifa con 3 roles 1..* -- 1 y 2 atributos (max y real)
 
 preguntar a gente atributos de gestor
+
+abonos media/larga duracion? impicaria revisar relacion vehiculo abono por lo de tener 5 coches y dos cambios AL AÑO.
