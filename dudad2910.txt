@@ -1,2 +1,15 @@
-el abono cuando lo renuevas es el mismo?
-solicitud de renovacion?
+el abono cuando lo renuevas es el mismo? -- no
+solicitud de renovacion? -- no, tiene unos 15 dias de antelación y se incluirian antes en la cola de solicitudes
+
+roles de abono-vehiculo correctos? -- duda 5/11 preguntar
+
+precio maximo de parking de localidad
+precio de parking
+ambas con cada clase de vehiculo
+
+
+que hacemos:
+	opcion 1: dos atributos tipo lista
+	opcion 2: clase tarifa con 3 roles 1..* -- 1 y 2 atributos (max y real)
+
+preguntar a gente atributos de gestor
