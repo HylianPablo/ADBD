@@ -19,3 +19,12 @@ que hacemos:
 preguntar a gente atributos de gestor
 
 abonos media/larga duracion? impicaria revisar relacion vehiculo abono por lo de tener 5 coches y dos cambios AL AÑO. --> Abonos larga/media se refieren a 24/12 h.
+
+
+DIA 12/11 LAB
+
+-TO-DO
+
+-Ver que hacemos con solicitud comerciante y normal
+-Terminar modelo relacional
+-Plantear Script de creacion (unicamente por ahora) de tablas
