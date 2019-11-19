@@ -81,6 +81,11 @@ CREATE TABLE Contrato(
 	FOREIGN KEY (numeroabono) REFERENCES Abono, 
 	FOREIGN KEY (nif) REFERENCES Usuario);
 
+CREATE TABLE Gestor(nombre CHAR(80), 
+	nif CHAR(9), 
+	domicilio CHAR(40),
+	PRIMARY KEY (dni));
+
 CREATE TABLE Usuario(
 	nombre CHAR(20), 
 	apellidos CHAR(80), 
