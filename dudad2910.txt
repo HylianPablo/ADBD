@@ -1,28 +1,13 @@
-el abono cuando lo renuevas es el mismo? -- no
-solicitud de renovacion? -- no, tiene unos 15 dias de antelación y se incluirian antes en la cola de solicitudes
+Grupo 09
 
-roles de abono-vehiculo correctos? -- duda 5/11 preguntar
+TODO
+---------------
+Poner bonito el vpp
+Actualizar el diagrama relacional
+Poner bonito el susodicho
+Restricciones
+Inserciones --> Constraints
+Tarifa maxima -> tabla de sistema
+Valores Unique
+Existen views?
 
-precio maximo de parking de localidad
-precio de parking
-ambas con cada clase de vehiculo
-
-
-que hacemos:
-	opcion 1: dos atributos tipo lista
-	opcion 2: clase tarifa con 3 roles 1..* -- 1 y 2 atributos (max y real)
-
-	opcion 3: hacemos al final esta, tres atributos y restriccion
-
-preguntar a gente atributos de gestor
-
-abonos media/larga duracion? impicaria revisar relacion vehiculo abono por lo de tener 5 coches y dos cambios AL AÑO. --> Abonos larga/media se refieren a 24/12 h.
-
-
-DIA 12/11 LAB
-
--TO-DO
-
--Ver que hacemos con solicitud comerciante y normal
--Terminar modelo relacional
--Plantear Script de creacion (unicamente por ahora) de tablas
