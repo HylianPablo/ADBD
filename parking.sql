@@ -175,4 +175,20 @@ CREATE TABLE Referencia(
 	FOREIGN KEY (matricula) REFERENCES Vehiculo,
 	FOREIGN KEY (numeroabono) REFERENCES Abono);
 
+INSERT INTO Valoracion VALUES ('123456D8753277532','123456D','correcto');
+INSERT INTO Valoracion VALUES ('123456D5319274742','123456D','malo');
+INSERT INTO Valoracion VALUES ('398930Q3631404429','398930Q','correcto');
+INSERT INTO Valoracion VALUES ('648509K8731387119','648509K','perfecto');
+INSERT INTO Valoracion VALUES ('626873M3309084705','626873M','pesimo');
 
+INSERT INTO Solicitud VALUES ('447986M74841277493','Juan','González Díez','71189567Q','Calle Luz, 8','true','2011-04-14','aceptada','447986M');
+INSERT INTO Solicitud VALUES ('071831K77491833085','Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C','true','2013-08-24','aceptada','071831K');
+INSERT INTO Solicitud VALUES ('548163H29072047247','Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B','true','2017-01-07','aceptada','548163H');
+INSERT INTO Solicitud VALUES ('447986M74851257493','Lucia','Casquete Manso','12348672V','Calle Tokio, 13','false','2017-12-12','cancelada','447986M');
+INSERT INTO Solicitud VALUES ('330173B47218447982','Pedro','García Pérez','12439680G','Calle Aurora, 89','true','2018-06-15','pendiente','330173B');
+
+INSERT INTO Abono VALUES ('480974988W','false','conreserva');
+INSERT INTO Abono VALUES ('509535735J','false','sinreserva-nocturno');
+INSERT INTO Abono VALUES ('641292490Y','true','conreserva');
+INSERT INTO Abono VALUES ('031544428P','false','cesion');
+INSERT INTO Abono VALUES ('282840982C','true','sinreserva-diurno');
