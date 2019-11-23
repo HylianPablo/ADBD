@@ -2,16 +2,17 @@ Grupo 09
 
 TODO
 ---------------
-Poner bonito el vpp
-Actualizar el diagrama relacional #
-Poner bonito el susodicho
+Poner bonito el vpp &
+Actualizar el diagrama relacional -HECHO
+Poner bonito el susodicho -HECHO
 Restricciones @
-Inserciones 
-Tarifa maxima -> tabla de sistema -done
+Inserciones @
+Tarifa maxima -> tabla de sistema -HECHO
 Valores Unique @
 Existen views?
 
 ----------------------
 # casi hecho
 @ en proceso
+& secundario
 
