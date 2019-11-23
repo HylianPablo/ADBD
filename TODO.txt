@@ -8,7 +8,7 @@ Poner bonito el susodicho -HECHO
 Restricciones @
 Inserciones @
 Tarifa maxima -> tabla de sistema -HECHO
-Valores Unique @
+Valores Unique HECHO
 Existen views?
 
 MEMORIA
