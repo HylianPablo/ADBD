@@ -3,11 +3,15 @@ Grupo 09
 TODO
 ---------------
 Poner bonito el vpp
-Actualizar el diagrama relacional
+Actualizar el diagrama relacional #
 Poner bonito el susodicho
-Restricciones
-Inserciones --> Constraints
-Tarifa maxima -> tabla de sistema
-Valores Unique
+Restricciones @
+Inserciones 
+Tarifa maxima -> tabla de sistema -done
+Valores Unique @
 Existen views?
+
+----------------------
+# casi hecho
+@ en proceso
 

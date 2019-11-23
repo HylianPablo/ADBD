@@ -3,8 +3,9 @@
 DROP TABLE Solicitud;
 DROP TABLE Aparcamiento;
 DROP TABLE Valoracion;
-DROP TABLE Gestor;
-DROP TABLE Contrato;
+DROP TABLE Trabajador;
+DROP TABLE ContratoAbono;
+DROP TABLE ContratoLaboral
 DROP TABLE Abono;
 DROP TABLE PlazaResidencial;
 DROP TABLE PlazaRotacional;
@@ -24,6 +25,22 @@ CREATE DOMAIN CONTAMINANTE AS CHAR(15)
 CREATE DOMAIN TIPO_VEHICULO AS CHAR(15)
 	CHECK(VALUE IN('automovil','autocaravana','motocicleta'));
 
+CREATE ASSERTION nplazasres(
+	CHECK (	(SELECT COUNT(*)
+		FROM Solicitud S NATURAL JOIN Aparcamiento A
+		WHERE (SELECT COUNT (*) FROM PlazaResidencial PR NATURAL JOIN Aparcamiento A) >0) =
+		(SELECT COUNT(*) FROM Solicitud S NATURAL JOIN Aparcamiento A)));
+
+CREATE ASSERTION tarifasmaximas(
+	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifaautomovil<=G.tarifamaxauto),
+	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifamotocicleta<=G.tarifamaxmoto),
+	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifaautocaravana<=G.tarifamaxcarav));
+
+CREATE TABLE Globales(
+	tarifamaxauto FLOAT,
+	tarifamaxmoto FLOAT,
+	tarifacarav FLOAT);
+
 CREATE TABLE Valoracion(
 	codigov CHAR(20),
 	codigoparking CHAR(20), 
@@ -33,37 +50,43 @@ CREATE TABLE Valoracion(
 
 CREATE TABLE Solicitud(
 	codigosolicitud CHAR(20), 
-	nombre CHAR(80), 
+	nombre CHAR(20), 
+	apellidos CHAR(80), 
        	nif CHAR(9), 
 	domicilio CHAR(40), 
 	acreditacionresidencia BOOLEAN, 
 	fecha DATE, 
 	estado ESTADO_SOLICITUD,
-	codigoparking CHAR(20), 
+	codigoparking CHAR(20),
+	UNIQUE (nif),
+	CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud), 
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento);
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento,
+	FOREIGN KEY (nombre) REFERENCES Usuario,	
+	FOREIGN KEY (apellidos) REFERENCES Usuario,	
+	FOREIGN KEY (nif) REFERENCES Usuario,	
+	FOREIGN KEY (domicilio) REFERENCES Usuario);
 
 CREATE TABLE Aparcamiento(
 	codigoparking CHAR(20),
 	numplazastotales INTEGER,
        	numplazasocupadas INTEGER, 
-	publicidad BOOLEAN, 
-	maquinaexpendedora BOOLEAN,
 	espaciobicis BOOLEAN,
 	espaciovmu BOOLEAN, 
 	admisioncomerciante BOOLEAN, 
-	tarifautomovil FLOAT,
+	tarifaautomovil FLOAT,
 	tarifaautocarvana FLOAT,
 	tarifamotocicleta FLOAT,
-	nif CHAR(9), 
 	PRIMARY KEY (codigoparking),
-	FOREIGN KEY (nif) REFERENCES Gestor);
+	CHECK (numplazastotales>0)
+	CHECK (tarifasmaximas));
 
-CREATE TABLE Gestor(
+CREATE TABLE Trabajador(
 	nombre CHAR(20), 
 	apellidos CHAR(80), 
 	nif CHAR(9), 
 	domicilio CHAR(40),
+	gestor BOOLEAN,
 	PRIMARY KEY (nif));
 
 CREATE TABLE Abono(
@@ -72,19 +95,25 @@ CREATE TABLE Abono(
 	tipo TIPO_ABONO, 
 	PRIMARY KEY (numeroabono));
 
-CREATE TABLE Contrato(
+CREATE TABLE ContratoLaboral(
+	numcontrato CHAR(20),
+	fechainicio DATE, 
+	fechafin DATE, 
+	codigoparking CHAR(20),
+	nif CHAR(9),
+	PRIMARY KEY (numcontrato,numeroparking,nif,numcontrato),
+	FOREIGN KEY (numeroparking) REFERENCES Abono, 
+	FOREIGN KEY (nif) REFERENCES Usuario);
+
+CREATE TABLE ContratoAbono(
+	numcontrato CHAR(20),
 	fechainicio DATE, 
 	fechafin DATE, 
 	numeroabono CHAR(20),
 	nif CHAR(9),
-	PRIMARY KEY (numeroabono, nif),
+	PRIMARY KEY (numeroabono, nif,numcontrato),
 	FOREIGN KEY (numeroabono) REFERENCES Abono, 
 	FOREIGN KEY (nif) REFERENCES Usuario);
-
-CREATE TABLE Gestor(nombre CHAR(80), 
-	nif CHAR(9), 
-	domicilio CHAR(40),
-	PRIMARY KEY (dni));
 
 CREATE TABLE Usuario(
 	nombre CHAR(20), 
@@ -133,6 +162,7 @@ CREATE TABLE Vehiculo(
 	modelo CHAR(30),
 	acreditacion BOOLEAN,
 	distintivoambiental CONTAMINANTE,
+	--distintivoambiental CHAR(30) CHECK(distintivo ambiental IN('ECO','B','C','OTRO')),
 	tipo TIPO_VEHICULO,
 	PRIMARY KEY (matricula));
 
