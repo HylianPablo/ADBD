@@ -13,23 +13,17 @@ DROP TABLE Ticket;
 DROP TABLE Vehiculo;
 DROP TABLE Referencia;
 
-CREATE DOMAIN ESTADO_SOLICITUD AS CHAR(15) 
-	CHECK(VALUE IN('aceptada','pendiente', 'cancelada'));
-
-CREATE DOMAIN TIPO_ABONO AS CHAR(15)
-	CHECK(VALUE IN('conreserva', 'sinreserva-diurno', 'sinreserva-nocturno','cesion'));
-
-CREATE DOMAIN CONTAMINANTE AS CHAR(15)
-	CHECK(VALUE IN('CERO','ECO','C','B'));
-
-CREATE DOMAIN TIPO_VEHICULO AS CHAR(15)
-	CHECK(VALUE IN('automovil','autocaravana','motocicleta'));
-
 CREATE ASSERTION nplazasres(
-	CHECK (	(SELECT COUNT(*)
-		FROM Solicitud S NATURAL JOIN Aparcamiento A
-		WHERE (SELECT COUNT (*) FROM PlazaResidencial PR NATURAL JOIN Aparcamiento A) >0) =
-		(SELECT COUNT(*) FROM Solicitud S NATURAL JOIN Aparcamiento A)));
+	CHECK (	(SELECT *
+		FROM Solicitud S1 NATURAL JOIN Aparcamiento A1
+		WHERE (((SELECT COUNT (*) FROM PlazaResidencial PR INNER JOIN Aparcamiento A1 ON PR.codigoparking=A1.codigoparking) >0) =
+		(SELECT COUNT(*) FROM Solicitud S2 INNER JOIN Aparcamiento A2 ON S2.codigoparking=A2.codigoparking);
+
+CREATE ASSERTION resorrot(
+	CHECK (	(SELECT *
+		FROM Abono AB1 NATURAL JOIN Aparcamiento A1
+		WHERE (((SELECT COUNT (*) FROM PlazaRotacional PR INNER JOIN Aparcamiento A1 ON PR.codigoparking=A1.codigoparking) >0) AND
+		((SELECT COUNT(*) FROM Abono AB2 INNER JOIN PlazaResidencial PRe ON AB2.codigoplaza=AB2.codigoplaza)=0));
 
 CREATE ASSERTION tarifasmaximas(
 	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifaautomovil<=G.tarifamaxauto),
@@ -56,9 +50,8 @@ CREATE TABLE Solicitud(
 	domicilio CHAR(40), 
 	acreditacionresidencia BOOLEAN, 
 	fecha DATE, 
-	estado ESTADO_SOLICITUD,
+	estado_solicitud CHAR(15) CHECK(estado_solicitud IN('aceptada','pendiente','cancelada')),
 	codigoparking CHAR(20),
-	UNIQUE (nif),
 	CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud), 
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento,
@@ -72,13 +65,15 @@ CREATE TABLE Aparcamiento(
 	numplazastotales INTEGER,
        	numplazasocupadas INTEGER, 
 	espaciobicis BOOLEAN,
-	espaciovmu BOOLEAN, 
+	espaciovmubasico BOOLEAN, 
+	espaciovmuampliado BOOLEAN,
 	admisioncomerciante BOOLEAN, 
 	tarifaautomovil FLOAT,
 	tarifaautocarvana FLOAT,
 	tarifamotocicleta FLOAT,
 	PRIMARY KEY (codigoparking),
-	CHECK (numplazastotales>0)
+	CHECK (numplazastotales>0),
+	CHECK ( NOT (!espaciovmubasico AND espaciovmuampliado)),
 	CHECK (tarifasmaximas));
 
 CREATE TABLE Trabajador(
@@ -92,7 +87,7 @@ CREATE TABLE Trabajador(
 CREATE TABLE Abono(
 	numeroabono CHAR(20), 
 	movsostenible BOOLEAN, 
-	tipo TIPO_ABONO, 
+	tipo_abono CHAR(15) CHECK(tipo_abono IN('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')), 
 	PRIMARY KEY (numeroabono));
 
 CREATE TABLE ContratoLaboral(
@@ -161,9 +156,8 @@ CREATE TABLE Vehiculo(
 	matricula CHAR(10),
 	modelo CHAR(30),
 	acreditacion BOOLEAN,
-	distintivoambiental CONTAMINANTE,
-	--distintivoambiental CHAR(30) CHECK(distintivo ambiental IN('ECO','B','C','OTRO')),
-	tipo TIPO_VEHICULO,
+	distintivoambiental CHAR(30) CHECK(distintivo ambiental IN('CERO','ECO','B','C')),
+	tipo_vehiculo CHAR(15) CHECK(tipo_vehiculo IN('automovil','motocicleta','autocaravana')),
 	PRIMARY KEY (matricula));
 
 CREATE TABLE Referencia(
@@ -193,11 +187,11 @@ INSERT INTO Abono VALUES ('641292490Y','true','conreserva');
 INSERT INTO Abono VALUES ('031544428P','false','cesion');
 INSERT INTO Abono VALUES ('282840982C','true','sinreserva-diurno');
 
-INSERT INTO Aparcamiento VALUES ('123456D','200','80','true','true','true','2.5','1.2','3');
-INSERT INTO Aparcamiento VALUES ('398930Q','200','90','true','true','false','2.3','1.1','2.9');
-INSERT INTO Aparcamiento VALUES ('648509K','230','80','false','true','false','2','1','2.5');
-INSERT INTO Aparcamiento VALUES ('626873M','100','70','false','false','false','1.8','0.8','3.4');
-INSERT INTO Aparcamiento VALUES ('592849H','300','190','true','true','true','2.6','1.4','3.2');
+INSERT INTO Aparcamiento VALUES ('123456D','200','80','true','true','true','true','2.5','1.2','3');
+INSERT INTO Aparcamiento VALUES ('398930Q','200','90','true','true','false','false','2.3','1.1','2.9');
+INSERT INTO Aparcamiento VALUES ('648509K','230','80','false','true','false','false','2','1','2.5');
+INSERT INTO Aparcamiento VALUES ('626873M','100','70','false','false','false','false','1.8','0.8','3.4');
+INSERT INTO Aparcamiento VALUES ('592849H','300','190','true','true','true','false','2.6','1.4','3.2');
 
 INSERT INTO Trabajador VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123','true');
 INSERT INTO Trabajador VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321','false');
