@@ -11,6 +11,8 @@ Tarifa maxima -> tabla de sistema -HECHO
 Valores Unique @
 Existen views?
 
+MEMORIA
+
 ----------------------
 # casi hecho
 @ en proceso
