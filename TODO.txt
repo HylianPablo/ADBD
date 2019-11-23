@@ -10,6 +10,7 @@ Inserciones @
 Tarifa maxima -> tabla de sistema -HECHO
 Valores Unique HECHO
 Existen views?
+Distinct
 
 MEMORIA
 
