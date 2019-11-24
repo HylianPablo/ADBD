@@ -5,7 +5,7 @@ TODO
 Poner bonito el vpp &
 Actualizar el diagrama relacional -HECHO
 Poner bonito el susodicho -HECHO
-Restricciones @
+Restricciones (revisar si Bolu las ha convertido bien) @
 Inserciones @
 Tarifa maxima -> tabla de sistema -HECHO
 Valores Unique HECHO

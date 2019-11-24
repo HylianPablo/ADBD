@@ -14,33 +14,49 @@ DROP TABLE Vehiculo;
 DROP TABLE Referencia;
 
 CREATE ASSERTION nplazasres(
-	CHECK (	(SELECT *
-		FROM Solicitud S1 NATURAL JOIN Aparcamiento A1
-		WHERE (((SELECT COUNT (*) FROM PlazaResidencial PR INNER JOIN Aparcamiento A1 ON PR.codigoparking=A1.codigoparking) >0) =
-		(SELECT COUNT(*) FROM Solicitud S2 INNER JOIN Aparcamiento A2 ON S2.codigoparking=A2.codigoparking);
+	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
+	CHECK (NOT EXISTS (SELECT *
+		FROM Solicitud S1 INNER JOIN PlazaRotacional PRot ON S1.codigoparking = PRot.codigoparking)
+	);
 
-CREATE ASSERTION resorrot(
-	CHECK (	(SELECT *
-		FROM Abono AB1 NATURAL JOIN Aparcamiento A1
-		WHERE (((SELECT COUNT (*) FROM PlazaRotacional PR INNER JOIN Aparcamiento A1 ON PR.codigoparking=A1.codigoparking) >0) AND
-		((SELECT COUNT(*) FROM Abono AB2 INNER JOIN PlazaResidencial PRe ON AB2.codigoplaza=AB2.codigoplaza)=0));
+CREATE ASSERTION sinreservanores(
+	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
+	-- y los otros tipos con una.)
+	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
+	CHECK (NOT EXISTS (SELECT *
+		FROM Abono A INNER JOIN PlazaResidencial PRes ON A.codigoplaza = PRes.codigoplaza
+		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno'))
+	);
+
+CREATE ASSERTION reservares(
+	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
+	-- y los otros tipos con una.)
+	-- No pueden existir abonos 'con reserva' o 'cesión' sin relacionar con una plaza residencial.
+	CHECK (NOT EXISTS (SELECT *
+		FROM Abono A
+		WHERE A.codigoplaza IS NULL AND A.tipo_abono IN ('conreserva', 'cesion')))
+	);
 
 CREATE ASSERTION tarifasmaximas(
-	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifaautomovil<=G.tarifamaxauto),
-	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifamotocicleta<=G.tarifamaxmoto),
-	CHECK (SELECT * FROM Globales G, Aparcamiento A WHERE A.tarifaautocaravana<=G.tarifamaxcarav));
+	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
+	CHECK (ALL (SELECT A.tarifaautomovil FROM Aparcamiento A) <= (SELECT G.tarifamaxauto FROM Globales G)),
+	CHECK (ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A) <= (SELECT G.tarifamaxmoto FROM Globales G)),
+	CHECK (ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A) <= (SELECT G.tarifamaxcarav FROM Globales G)
+	);
 
 CREATE TABLE Globales(
 	tarifamaxauto FLOAT,
 	tarifamaxmoto FLOAT,
-	tarifacarav FLOAT);
+	tarifacarav FLOAT
+	);
 
 CREATE TABLE Valoracion(
 	codigov CHAR(20),
 	codigoparking CHAR(20),
 	descripcion CHAR(100),
 	PRIMARY KEY (codigov,codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento);
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	);
 
 CREATE TABLE Solicitud(
 	codigosolicitud CHAR(20),
@@ -50,7 +66,8 @@ CREATE TABLE Solicitud(
 	domicilio CHAR(40),
 	acreditacionresidencia BOOLEAN,
 	fecha DATE,
-	estado_solicitud CHAR(15) CHECK(estado_solicitud IN('aceptada','pendiente','cancelada')),
+	estado_solicitud CHAR(15),
+	CHECK (estado_solicitud IN ('aceptada','pendiente','cancelada')),
 	codigoparking CHAR(20),
 	CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud),
@@ -58,7 +75,8 @@ CREATE TABLE Solicitud(
 	FOREIGN KEY (nombre) REFERENCES Usuario,
 	FOREIGN KEY (apellidos) REFERENCES Usuario,
 	FOREIGN KEY (nif) REFERENCES Usuario,
-	FOREIGN KEY (domicilio) REFERENCES Usuario);
+	FOREIGN KEY (domicilio) REFERENCES Usuario
+	);
 
 CREATE TABLE Aparcamiento(
 	codigoparking CHAR(20),
@@ -69,12 +87,13 @@ CREATE TABLE Aparcamiento(
 	espaciovmuampliado BOOLEAN,
 	admisioncomerciante BOOLEAN,
 	tarifaautomovil FLOAT,
-	tarifaautocarvana FLOAT,
+	tarifaautocaravana FLOAT,
 	tarifamotocicleta FLOAT,
 	PRIMARY KEY (codigoparking),
-	CHECK (numplazastotales>0),
-	CHECK ( NOT (!espaciovmubasico AND espaciovmuampliado)),
-	CHECK (tarifasmaximas));
+	CHECK (numplazastotales > 0),
+	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado)),
+	CHECK (tarifasmaximas)
+	);
 
 CREATE TABLE Trabajador(
 	nombre CHAR(20),
@@ -82,13 +101,22 @@ CREATE TABLE Trabajador(
 	nif CHAR(9),
 	domicilio CHAR(40),
 	gestor BOOLEAN,
-	PRIMARY KEY (nif));
+	PRIMARY KEY (nif)
+	);
 
 CREATE TABLE Abono(
 	numeroabono CHAR(20),
 	movsostenible BOOLEAN,
-	tipo_abono CHAR(15) CHECK(tipo_abono IN('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
-	PRIMARY KEY (numeroabono));
+	tipo_abono CHAR(15),
+	CHECK (tipo_abono IN ('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
+	codigoplaza CHAR(20),
+	codigoparking CHAR(20),
+	PRIMARY KEY (numeroabono)
+	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	CHECK (sinreservanores)
+	CHECK (reservares)
+	);
 
 CREATE TABLE ContratoLaboral(
 	numcontrato CHAR(20),
@@ -98,7 +126,8 @@ CREATE TABLE ContratoLaboral(
 	nif CHAR(9),
 	PRIMARY KEY (numcontrato,numeroparking,nif,numcontrato),
 	FOREIGN KEY (numeroparking) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario);
+	FOREIGN KEY (nif) REFERENCES Usuario
+	);
 
 CREATE TABLE ContratoAbono(
 	numcontrato CHAR(20),
@@ -108,7 +137,8 @@ CREATE TABLE ContratoAbono(
 	nif CHAR(9),
 	PRIMARY KEY (numeroabono, nif,numcontrato),
 	FOREIGN KEY (numeroabono) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario);
+	FOREIGN KEY (nif) REFERENCES Usuario
+	);
 
 CREATE TABLE Usuario(
 	nombre CHAR(20),
@@ -119,7 +149,8 @@ CREATE TABLE Usuario(
 	fianza FLOAT,
 	numcuotasnopagadas INTEGER,
 	pmr BOOLEAN,
-	PRIMARY KEY (nif));
+	PRIMARY KEY (nif)
+	);
 
 CREATE TABLE PlazaResidencial(
 	coste FLOAT,
@@ -128,8 +159,9 @@ CREATE TABLE PlazaResidencial(
 	personaespecial BOOLEAN,
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
-	PRIMARY KEY (codigoplaza,codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento);
+	PRIMARY KEY (codigoplaza, codigoparking),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	);
 
 CREATE TABLE PlazaRotacional(
 	disuasorio BOOLEAN,
@@ -138,8 +170,9 @@ CREATE TABLE PlazaRotacional(
 	personaespecial BOOLEAN,
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
-	PRIMARY KEY (codigoplaza,codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento);
+	PRIMARY KEY (codigoplaza, codigoparking),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	);
 
 CREATE TABLE Ticket(
 	horae TIME,
@@ -150,15 +183,19 @@ CREATE TABLE Ticket(
 	horas TIME,
 	PRIMARY KEY (horae, matricula, fecha),
 	FOREIGN KEY (matricula) REFERENCES Vehiculo,
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento);
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	);
 
 CREATE TABLE Vehiculo(
 	matricula CHAR(10),
 	modelo CHAR(30),
 	acreditacion BOOLEAN,
-	distintivoambiental CHAR(30) CHECK(distintivo ambiental IN('CERO','ECO','B','C')),
-	tipo_vehiculo CHAR(15) CHECK(tipo_vehiculo IN('automovil','motocicleta','autocaravana')),
-	PRIMARY KEY (matricula));
+	distintivoambiental CHAR(30),
+	CHECK (distintivo ambiental IN ('CERO','ECO','B','C')),
+	tipo_vehiculo CHAR(15),
+	CHECK (tipo_vehiculo IN ('automovil','motocicleta','autocaravana')),
+	PRIMARY KEY (matricula)
+	);
 
 CREATE TABLE Referencia(
 	matricula CHAR(10),
@@ -167,7 +204,8 @@ CREATE TABLE Referencia(
 	fechafin DATE,
 	PRIMARY KEY (matricula, numeroabono),
 	FOREIGN KEY (matricula) REFERENCES Vehiculo,
-	FOREIGN KEY (numeroabono) REFERENCES Abono);
+	FOREIGN KEY (numeroabono) REFERENCES Abono
+	);
 
 
 
@@ -200,22 +238,22 @@ INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','',
 INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','','Calle Dos, 29','true','2018-01-04','cancelada','214749H');
 INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B','true','2019-08-14','acepatada','103647K');
 
-INSERT INTO Abono VALUES ('480974988W','false','conreserva');
-INSERT INTO Abono VALUES ('509535735J','false','sinreserva-nocturno');
-INSERT INTO Abono VALUES ('641292490Y','true','conreserva');
-INSERT INTO Abono VALUES ('031544428P','false','cesion');
-INSERT INTO Abono VALUES ('282840982C','true','sinreserva-diurno');
-INSERT INTO Abono VALUES ('282812342M','false','sinreserva-diurno');
-INSERT INTO Abono VALUES ('567840982A','false','cesion');
-INSERT INTO Abono VALUES ('242834982M','true','conreserva');
-INSERT INTO Abono VALUES ('211140980L','false','cesion');
-INSERT INTO Abono VALUES ('012840752S','true','sinreserva-nocturno');
-INSERT INTO Abono VALUES ('281453982V','false','cesion');
-INSERT INTO Abono VALUES ('012815432X','false','cesion');
-INSERT INTO Abono VALUES ('456268510M','false','conreserva');
-INSERT INTO Abono VALUES ('284440756G','false','sinreserva-diurno');
-INSERT INTO Abono VALUES ('175236982B','false','cesion');
-INSERT INTO Abono VALUES ('285678882C','false','conreserva');
+INSERT INTO Abono VALUES ('480974988W','false','conreserva', '_________', '123456D');
+INSERT INTO Abono VALUES ('509535735J','false','sinreserva-nocturno', '_________', '398930Q');
+INSERT INTO Abono VALUES ('641292490Y','true','conreserva', '_________', '648509K');
+INSERT INTO Abono VALUES ('031544428P','false','cesion', '_________', '626873M');
+INSERT INTO Abono VALUES ('282840982C','true','sinreserva-diurno', '_________', '592849H');
+INSERT INTO Abono VALUES ('282812342M','false','sinreserva-diurno', '_________', '214749H');
+INSERT INTO Abono VALUES ('567840982A','false','cesion', '_________', '590348L');
+INSERT INTO Abono VALUES ('242834982M','true','conreserva', '_________', '111111M');
+INSERT INTO Abono VALUES ('211140980L','false','cesion', '_________', '789214R');
+INSERT INTO Abono VALUES ('012840752S','true','sinreserva-nocturno', '_________', '103647K');
+INSERT INTO Abono VALUES ('281453982V','false','cesion', '_________', '789214R');
+INSERT INTO Abono VALUES ('012815432X','false','cesion', '_________', '111111M');
+INSERT INTO Abono VALUES ('456268510M','false','conreserva', '_________', '590348L');
+INSERT INTO Abono VALUES ('284440756G','false','sinreserva-diurno', '_________', '214749H');
+INSERT INTO Abono VALUES ('175236982B','false','cesion', '_________', '592849H');
+INSERT INTO Abono VALUES ('285678882C','false','conreserva', '_________', '626873M');
 
 INSERT INTO Aparcamiento VALUES ('123456D','200','80','true','true','true','true','2.5','1.2','3');
 INSERT INTO Aparcamiento VALUES ('398930Q','200','90','true','true','false','false','2.3','1.1','2.9');
