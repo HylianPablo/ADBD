@@ -5,12 +5,15 @@ TODO
 Poner bonito el vpp &
 Actualizar el diagrama relacional -HECHO
 Poner bonito el susodicho -HECHO
-Restricciones (revisar si Bolu las ha convertido bien) @
+Restricciones @
 Inserciones @
 Tarifa maxima -> tabla de sistema -HECHO
 Valores Unique HECHO
 Existen views?
-Distinct
+Distinct - Solo en consultas, lo que nos lleva a
+Consultas para quedar bien (un par) 
+¿Hay que revisar si al crear una tabla los valores de referencia a otras son correctos
+(ejemplo: si ponemos una abono a la plaza 11 y solo hay hasta la 10)?
 
 MEMORIA
 

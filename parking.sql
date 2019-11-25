@@ -1,9 +1,9 @@
---Equipo 09
+--Equipo 0
 
 DROP TABLE Solicitud;
 DROP TABLE Aparcamiento;
 DROP TABLE Valoracion;
-DROP TABLE Trabajador;
+DROP TABLE Trabajdor;
 DROP TABLE ContratoAbono;
 DROP TABLE ContratoLaboral
 DROP TABLE Abono;
@@ -16,7 +16,9 @@ DROP TABLE Referencia;
 CREATE ASSERTION nplazasres(
 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
 	CHECK (NOT EXISTS (SELECT *
-		FROM Solicitud S1 INNER JOIN PlazaRotacional PRot ON S1.codigoparking = PRot.codigoparking)
+		FROM Solicitud S NATURAL JOIN Aparcamiento A
+		WHERE A.numplazastotales = (
+			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)
 	);
 
 CREATE ASSERTION sinreservanores(
@@ -24,7 +26,7 @@ CREATE ASSERTION sinreservanores(
 	-- y los otros tipos con una.)
 	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
 	CHECK (NOT EXISTS (SELECT *
-		FROM Abono A INNER JOIN PlazaResidencial PRes ON A.codigoplaza = PRes.codigoplaza
+		FROM Abono A NATURAL JOIN PlazaResidencial PRes
 		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno'))
 	);
 
@@ -39,9 +41,9 @@ CREATE ASSERTION reservares(
 
 CREATE ASSERTION tarifasmaximas(
 	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
-	CHECK (ALL (SELECT A.tarifaautomovil FROM Aparcamiento A) <= (SELECT G.tarifamaxauto FROM Globales G)),
-	CHECK (ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A) <= (SELECT G.tarifamaxmoto FROM Globales G)),
-	CHECK (ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A) <= (SELECT G.tarifamaxcarav FROM Globales G)
+	CHECK ( (SELECT G.tarifamaxauto FROM Globales G) >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A)),
+	CHECK ( (SELECT G.tarifamaxmoto FROM Globales G) >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A)),
+	CHECK ( (SELECT G.tarifamaxcarav FROM Globales G) >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
 	);
 
 CREATE TABLE Globales(
