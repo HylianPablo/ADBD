@@ -312,3 +312,15 @@ INSERT INTO ContratoAbono VALUES ('510M___111','2018-08-08','2020-12-30','456268
 INSERT INTO ContratoAbono VALUES ('756G___002','2011-09-09','2014-12-30','284440756G','_________');
 INSERT INTO ContratoAbono VALUES ('982B___020','2018-10-10','2020-12-30','175236982B','_________');
 INSERT INTO ContratoAbono VALUES ('882C___022','2011-11-11','2014-12-30','285678882C','_________');
+
+INSERT INTO Ticket VALUES ('18:00','7391-FSL','2019-11-11','123456D','3','19:00');
+INSERT INTO Ticket VALUES ('18:10','6794-DXV','2018-07-05','398930Q','2.3','20:07');
+INSERT INTO Ticket VALUES ('19:00','0588-GJC','2013-04-27','648509K','0.4','19:30');
+INSERT INTO Ticket VALUES ('08:03','5537-YUP','2000-01-12','590348L','8.3','23:59');
+INSERT INTO Ticket VALUES ('01:48','2134-FCK','2010-09-18','103647K','2','18:50');
+
+INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','true','C','automovil');
+INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','true','B','automovil');
+INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','true','ECO','motocicleta');
+INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','true','CERO','automovil');
+INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','true','C','autocaravana');
