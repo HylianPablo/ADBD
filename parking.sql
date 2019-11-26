@@ -198,7 +198,7 @@ CREATE TABLE Ticket(
 	horae TIME,
 	matricula CHAR(10),
 	fecha DATE,
-	codiogparking CHAR(20),
+	codigoparking CHAR(20),
 	precio FLOAT,
 	horas TIME,
 	PRIMARY KEY (horae, matricula, fecha),
@@ -217,6 +217,40 @@ CREATE TABLE Referencia(
 	);
 
 
+-- Globales
+
+INSERT INTO Aparcamiento VALUES ('123456D','200','80','true','true','true','true','2.5','1.2','3');
+INSERT INTO Aparcamiento VALUES ('398930Q','200','90','true','true','false','false','2.3','1.1','2.9');
+INSERT INTO Aparcamiento VALUES ('648509K','230','80','false','true','false','false','2','1','2.5');
+INSERT INTO Aparcamiento VALUES ('626873M','100','70','false','false','false','false','1.8','0.8','3.4');
+INSERT INTO Aparcamiento VALUES ('592849H','300','190','true','true','true','false','2.6','1.4','3.2');
+INSERT INTO Aparcamiento VALUES ('214749H','300','186','true','true','true','true','2','1.4','3.2');
+INSERT INTO Aparcamiento VALUES ('590348L','100','53','true','true','true','true','1.6','1.4','3.4');
+INSERT INTO Aparcamiento VALUES ('111111M','210','150','false','false','false','false','1.8','1.6','2.8');
+INSERT INTO Aparcamiento VALUES ('789214R','125','63','true','false','false','false','2.4','1.2','3');
+INSERT INTO Aparcamiento VALUES ('103647K','238','162','false','false','false','false','2.7','1.6','2.7');
+
+-- Usuario
+
+INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','true','C','automovil');
+INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','true','B','automovil');
+INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','true','ECO','motocicleta');
+INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','true','CERO','automovil');
+INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','true','C','autocaravana');
+
+INSERT INTO Trabajador VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123','true');
+INSERT INTO Trabajador VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321','false');
+INSERT INTO Trabajador VALUES ('Alejandra','Abril Nieto','12453120N','Calle Sueño, 3, Piso 8C','false');
+INSERT INTO Trabajador VALUES ('Paula','Renero Taboada','12598675D','Calle Falsa , 8','true');
+INSERT INTO Trabajador VALUES ('Daniela','Romero Villacorta','12890564J','Calle Pizarra, 1, Piso 3A','false');
+INSERT INTO Trabajador VALUES ('Manuela','Sanz Sánchez','71169374G','Calle Doce, 10','false');
+INSERT INTO Trabajador VALUES ('Maria','Rosales Iglesias','01235789L','Calle Trece, 11','true');
+INSERT INTO Trabajador VALUES ('Antonio','Marínez Vazquez','14736925M','Calle Catorce, 14','false');
+INSERT INTO Trabajador VALUES ('Ana','San Juan Sanz','11223366C','Calle Once, 7, Piso 6B','false');
+INSERT INTO Trabajador VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, Piso 5G','false');
+INSERT INTO Trabajador VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F','false');
+INSERT INTO Trabajador VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A','false');
+INSERT INTO Trabajador VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B','true');
 
 INSERT INTO Valoracion VALUES ('123456D8753277532','123456D','correcto');
 INSERT INTO Valoracion VALUES ('123456D5319274742','123456D','malo');
@@ -247,6 +281,10 @@ INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','',
 INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','','Calle Dos, 29','true','2018-01-04','cancelada','214749H');
 INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B','true','2019-08-14','acepatada','103647K');
 
+-- Plaza residencial
+
+-- Plaza rotacional
+
 INSERT INTO Abono VALUES ('480974988W','false','conreserva', '_________', '123456D');
 INSERT INTO Abono VALUES ('509535735J','false','sinreserva-nocturno', '_________', '398930Q');
 INSERT INTO Abono VALUES ('641292490Y','true','conreserva', '_________', '648509K');
@@ -263,31 +301,6 @@ INSERT INTO Abono VALUES ('456268510M','false','conreserva', '_________', '59034
 INSERT INTO Abono VALUES ('284440756G','false','sinreserva-diurno', '_________', '214749H');
 INSERT INTO Abono VALUES ('175236982B','false','cesion', '_________', '592849H');
 INSERT INTO Abono VALUES ('285678882C','false','conreserva', '_________', '626873M');
-
-INSERT INTO Aparcamiento VALUES ('123456D','200','80','true','true','true','true','2.5','1.2','3');
-INSERT INTO Aparcamiento VALUES ('398930Q','200','90','true','true','false','false','2.3','1.1','2.9');
-INSERT INTO Aparcamiento VALUES ('648509K','230','80','false','true','false','false','2','1','2.5');
-INSERT INTO Aparcamiento VALUES ('626873M','100','70','false','false','false','false','1.8','0.8','3.4');
-INSERT INTO Aparcamiento VALUES ('592849H','300','190','true','true','true','false','2.6','1.4','3.2');
-INSERT INTO Aparcamiento VALUES ('214749H','300','186','true','true','true','true','2','1.4','3.2');
-INSERT INTO Aparcamiento VALUES ('590348L','100','53','true','true','true','true','1.6','1.4','3.4');
-INSERT INTO Aparcamiento VALUES ('111111M','210','150','false','false','false','false','1.8','1.6','2.8');
-INSERT INTO Aparcamiento VALUES ('789214R','125','63','true','false','false','false','2.4','1.2','3');
-INSERT INTO Aparcamiento VALUES ('103647K','238','162','false','false','false','false','2.7','1.6','2.7');
-
-INSERT INTO Trabajador VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123','true');
-INSERT INTO Trabajador VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321','false');
-INSERT INTO Trabajador VALUES ('Alejandra','Abril Nieto','12453120N','Calle Sueño, 3, Piso 8C','false');
-INSERT INTO Trabajador VALUES ('Paula','Renero Taboada','12598675D','Calle Falsa , 8','true');
-INSERT INTO Trabajador VALUES ('Daniela','Romero Villacorta','12890564J','Calle Pizarra, 1, Piso 3A','false');
-INSERT INTO Trabajador VALUES ('Manuela','Sanz Sánchez','71169374G','Calle Doce, 10','false');
-INSERT INTO Trabajador VALUES ('Maria','Rosales Iglesias','01235789L','Calle Trece, 11','true');
-INSERT INTO Trabajador VALUES ('Antonio','Marínez Vazquez','14736925M','Calle Catorce, 14','false');
-INSERT INTO Trabajador VALUES ('Ana','San Juan Sanz','11223366C','Calle Once, 7, Piso 6B','false');
-INSERT INTO Trabajador VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, Piso 5G','false');
-INSERT INTO Trabajador VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F','false');
-INSERT INTO Trabajador VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A','false');
-INSERT INTO Trabajador VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B','true');
 
 INSERT INTO ContratoLaboral VALUES ('123456D67K321','2017-01-03','2019-01-03','123456D','71198567K');
 INSERT INTO ContratoLaboral VALUES ('398930Q80L768','2016-03-18','2018-02-28','398930Q','12376480L');
@@ -326,8 +339,4 @@ INSERT INTO Ticket VALUES ('19:00','0588-GJC','2013-04-27','648509K','0.4','19:3
 INSERT INTO Ticket VALUES ('08:03','5537-YUP','2000-01-12','590348L','8.3','23:59');
 INSERT INTO Ticket VALUES ('01:48','2134-FCK','2010-09-18','103647K','2','18:50');
 
-INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','true','C','automovil');
-INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','true','B','automovil');
-INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','true','ECO','motocicleta');
-INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','true','CERO','automovil');
-INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','true','C','autocaravana');
+-- Referencia
