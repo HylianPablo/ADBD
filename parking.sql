@@ -1,19 +1,19 @@
 --Equipo 0
 
-DROP TABLE IF EXISTS Solicitud;
-DROP TABLE IF EXISTS Aparcamiento;
-DROP TABLE IF EXISTS Valoracion;
-DROP TABLE IF EXISTS Trabajador;
+DROP TABLE IF EXISTS Referencia;
+DROP TABLE IF EXISTS Ticket;
 DROP TABLE IF EXISTS ContratoAbono;
 DROP TABLE IF EXISTS ContratoLaboral;
 DROP TABLE IF EXISTS Abono;
-DROP TABLE IF EXISTS PlazaResidencial;
 DROP TABLE IF EXISTS PlazaRotacional;
-DROP TABLE IF EXISTS Ticket;
+DROP TABLE IF EXISTS PlazaResidencial;
+DROP TABLE IF EXISTS Solicitud;
+DROP TABLE IF EXISTS Valoracion;
+DROP TABLE IF EXISTS Trabajador;
 DROP TABLE IF EXISTS Vehiculo;
-DROP TABLE IF EXISTS Referencia;
-DROP TABLE IF EXISTS Globales;
 DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS Aparcamiento;
+DROP TABLE IF EXISTS Globales;
 
 -- CREATE ASSERTION nplazasres(
 -- 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
