@@ -80,7 +80,9 @@ CREATE TABLE Usuario(
 	fianza FLOAT,
 	numcuotasnopagadas INTEGER,
 	pmr BOOLEAN,
-	PRIMARY KEY (nif)
+	PRIMARY KEY (nif),
+	UNIQUE (nombre),
+	UNIQUE (apellidos)
 	);
 
 CREATE TABLE Vehiculo(
@@ -139,6 +141,7 @@ CREATE TABLE PlazaResidencial(
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
+	UNIQUE (codigoplaza),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
@@ -150,6 +153,7 @@ CREATE TABLE PlazaRotacional(
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
+	UNIQUE (codigoplaza),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
@@ -173,7 +177,7 @@ CREATE TABLE ContratoLaboral(
 	fechafin DATE,
 	codigoparking CHAR(20),
 	nif CHAR(9),
-	PRIMARY KEY (numcontrato, codigoparking, nif, numcontrato),
+	PRIMARY KEY (numcontrato, codigoparking, nif),
 	FOREIGN KEY (codigoparking) REFERENCES Abono(codigoparking),
 	FOREIGN KEY (nif) REFERENCES Usuario(nif)
 	);
@@ -184,7 +188,7 @@ CREATE TABLE ContratoAbono(
 	fechafin DATE,
 	numeroabono CHAR(20),
 	nif CHAR(9),
-	PRIMARY KEY (numeroabono, nif,numcontrato),
+	PRIMARY KEY (numeroabono, nif, numcontrato),
 	FOREIGN KEY (numeroabono) REFERENCES Abono(numeroabono),
 	FOREIGN KEY (nif) REFERENCES Usuario(nif)
 	);
