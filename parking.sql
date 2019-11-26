@@ -108,7 +108,7 @@ CREATE TABLE Valoracion(
 	codigoparking CHAR(20),
 	descripcion CHAR(100),
 	PRIMARY KEY (codigov,codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
 CREATE TABLE Solicitud(
@@ -124,11 +124,11 @@ CREATE TABLE Solicitud(
 	codigoparking CHAR(20),
 	-- CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento,
-	FOREIGN KEY (nombre) REFERENCES Usuario,
-	FOREIGN KEY (apellidos) REFERENCES Usuario,
-	FOREIGN KEY (nif) REFERENCES Usuario,
-	FOREIGN KEY (domicilio) REFERENCES Usuario
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking),
+	FOREIGN KEY (nombre) REFERENCES Usuario(nombre),
+	FOREIGN KEY (apellidos) REFERENCES Usuario(apellidos),
+	FOREIGN KEY (nif) REFERENCES Usuario(nif),
+	FOREIGN KEY (domicilio) REFERENCES Usuario(domicilio)
 	);
 
 CREATE TABLE PlazaResidencial(
@@ -139,7 +139,7 @@ CREATE TABLE PlazaResidencial(
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
 CREATE TABLE PlazaRotacional(
@@ -150,7 +150,7 @@ CREATE TABLE PlazaRotacional(
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
 CREATE TABLE Abono(
@@ -161,8 +161,8 @@ CREATE TABLE Abono(
 	codigoplaza CHAR(20),
 	codigoparking CHAR(20),
 	PRIMARY KEY (numeroabono),
-	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial,
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial(codigoplaza),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	-- CHECK (sinreservanores)
 	-- CHECK (reservares)
 	);
@@ -174,8 +174,8 @@ CREATE TABLE ContratoLaboral(
 	codigoparking CHAR(20),
 	nif CHAR(9),
 	PRIMARY KEY (numcontrato, codigoparking, nif, numcontrato),
-	FOREIGN KEY (codigoparking) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario
+	FOREIGN KEY (codigoparking) REFERENCES Abono(codigoparking),
+	FOREIGN KEY (nif) REFERENCES Usuario(nif)
 	);
 
 CREATE TABLE ContratoAbono(
@@ -185,8 +185,8 @@ CREATE TABLE ContratoAbono(
 	numeroabono CHAR(20),
 	nif CHAR(9),
 	PRIMARY KEY (numeroabono, nif,numcontrato),
-	FOREIGN KEY (numeroabono) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario
+	FOREIGN KEY (numeroabono) REFERENCES Abono(numeroabono),
+	FOREIGN KEY (nif) REFERENCES Usuario(nif)
 	);
 
 CREATE TABLE Ticket(
@@ -197,8 +197,8 @@ CREATE TABLE Ticket(
 	precio FLOAT,
 	horas TIME,
 	PRIMARY KEY (horae, matricula, fecha),
-	FOREIGN KEY (matricula) REFERENCES Vehiculo,
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
 CREATE TABLE Referencia(
@@ -207,8 +207,8 @@ CREATE TABLE Referencia(
 	fechainicio DATE,
 	fechafin DATE,
 	PRIMARY KEY (matricula, numeroabono),
-	FOREIGN KEY (matricula) REFERENCES Vehiculo,
-	FOREIGN KEY (numeroabono) REFERENCES Abono
+	FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
+	FOREIGN KEY (numeroabono) REFERENCES Abono(numeroabono)
 	);
 
 
