@@ -161,7 +161,7 @@ CREATE TABLE PlazaRotacional(
 CREATE TABLE Abono(
 	numeroabono CHAR(20),
 	movsostenible BOOLEAN,
-	tipo_abono CHAR(15),
+	tipo_abono CHAR(20),
 	CHECK (tipo_abono IN ('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
 	codigoplaza CHAR(20),
 	codigoparking CHAR(20),
@@ -180,7 +180,7 @@ CREATE TABLE ContratoLaboral(
 	nif CHAR(9),
 	PRIMARY KEY (numcontrato, codigoparking, nif),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking),
-	FOREIGN KEY (nif) REFERENCES Usuario(nif)
+	FOREIGN KEY (nif) REFERENCES Trabajador(nif)
 	);
 
 CREATE TABLE ContratoAbono(
@@ -291,7 +291,7 @@ INSERT INTO Solicitud VALUES ('111111M23789452145','Victor','Martinez Sanz','000
 INSERT INTO Solicitud VALUES ('214749H00001141254','Santiago','Ruiz López','00000002B','Calle Seis, 39',true,'2017-11-14','cancelada','214749H');
 INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','00000003C','Calle Tres, 74',true,'2018-05-13','aceptada','626873M');
 INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,'2018-01-04','cancelada','214749H');
-INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,'2019-08-14','acepatada','103647K');
+INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,'2019-08-14','aceptada','103647K');
 
 INSERT INTO PlazaResidencial VALUES (100, '123456D00198', true, true, true,'123456D');
 INSERT INTO PlazaResidencial VALUES (130.4, '398930Q00125', true, true, true,'398930Q');
@@ -304,27 +304,27 @@ INSERT INTO PlazaResidencial VALUES (158.98, '111111M00115', true, false, true,'
 INSERT INTO PlazaResidencial VALUES (100.52, '789214R00105', true, false, true,'789214R');
 INSERT INTO PlazaResidencial VALUES (179.26, '103647K00097', false, true, false,'103647K');
 INSERT INTO PlazaResidencial VALUES (97.5, '626873M00076', false, false, true,'626873M');
-INSERT INTO PlazaResidencial VALUES (101.6, '648509K0015,' false, true, true,'648509K');
+INSERT INTO PlazaResidencial VALUES (101.6, '648509K0015', false, true, true,'648509K');
 INSERT INTO PlazaResidencial VALUES (100.99, '590348L00014', true, false, true,'590348L');
 INSERT INTO PlazaResidencial VALUES (107.8, '214749H00025', true, true, true,'214749H');
 INSERT INTO PlazaResidencial VALUES (158.98, '111111M00100', true, false, true,'111111M');
 INSERT INTO PlazaResidencial VALUES (179.26, '103647K00014', false, true, false,'103647K');
 INSERT INTO PlazaResidencial VALUES (100.52, '789214R00014', true, false, true,'789214R');
 
-INSERT INTO PlazaRotacional VALUES (true, '123456D00155', true, true, false, '123456D')
-INSERT INTO PlazaRotacional VALUES (false, '398930Q00085', true, false, false, '398930Q')
-INSERT INTO PlazaRotacional VALUES (false, '648509K00001', false, false, false, '648509K')
-INSERT INTO PlazaRotacional VALUES (false, '626873M00229', false, false, false, '626873M')
-INSERT INTO PlazaRotacional VALUES (false, '123456D00144', false, false, false, '123456D')
-INSERT INTO PlazaRotacional VALUES (false, '592849H00120', false, false, true, '592849H')
-INSERT INTO PlazaRotacional VALUES (false, '214749H00026', true, false, false, '214749H')
-INSERT INTO PlazaRotacional VALUES (true, '590348L00054', false, false, false, '590348L')
-INSERT INTO PlazaRotacional VALUES (false, '111111M00095', false, true, false, '111111M')
-INSERT INTO PlazaRotacional VALUES (false, '789214R00016', false, false, true, '789214R')
-INSERT INTO PlazaRotacional VALUES (false, '103647K00050', false, false, false, '103647K')
-INSERT INTO PlazaRotacional VALUES (false, '592849H00099', false, false, false, '592849H')
-INSERT INTO PlazaRotacional VALUES (true, '123456D00123', false, false, true, '123456D')
-INSERT INTO PlazaRotacional VALUES (false, '648509K00002', false, false, false, '648509K')
+INSERT INTO PlazaRotacional VALUES (true, '123456D00155', true, true, false, '123456D');
+INSERT INTO PlazaRotacional VALUES (false, '398930Q00085', true, false, false, '398930Q');
+INSERT INTO PlazaRotacional VALUES (false, '648509K00001', false, false, false, '648509K');
+INSERT INTO PlazaRotacional VALUES (false, '626873M00229', false, false, false, '626873M');
+INSERT INTO PlazaRotacional VALUES (false, '123456D00144', false, false, false, '123456D');
+INSERT INTO PlazaRotacional VALUES (false, '592849H00120', false, false, true, '592849H');
+INSERT INTO PlazaRotacional VALUES (false, '214749H00026', true, false, false, '214749H');
+INSERT INTO PlazaRotacional VALUES (true, '590348L00054', false, false, false, '590348L');
+INSERT INTO PlazaRotacional VALUES (false, '111111M00095', false, true, false, '111111M');
+INSERT INTO PlazaRotacional VALUES (false, '789214R00016', false, false, true, '789214R');
+INSERT INTO PlazaRotacional VALUES (false, '103647K00050', false, false, false, '103647K');
+INSERT INTO PlazaRotacional VALUES (false, '592849H00099', false, false, false, '592849H');
+INSERT INTO PlazaRotacional VALUES (true, '123456D00123', false, false, true, '123456D');
+INSERT INTO PlazaRotacional VALUES (false, '648509K00002', false, false, false, '648509K');
 
 INSERT INTO Abono VALUES ('480974988W',false,'conreserva', '123456D00198', '123456D');
 INSERT INTO Abono VALUES ('509535735J',false,'sinreserva-nocturno', NULL, '398930Q');
