@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS Solicitud;
 DROP TABLE IF EXISTS Aparcamiento;
 DROP TABLE IF EXISTS Valoracion;
-DROP TABLE IF EXISTS Trabajdor;
+DROP TABLE IF EXISTS Trabajador;
 DROP TABLE IF EXISTS ContratoAbono;
 DROP TABLE IF EXISTS ContratoLaboral;
 DROP TABLE IF EXISTS Abono;
@@ -88,7 +88,7 @@ CREATE TABLE Vehiculo(
 	modelo CHAR(30),
 	acreditacion BOOLEAN,
 	distintivoambiental CHAR(30),
-	CHECK (distintivo ambiental IN ('CERO','ECO','B','C')),
+	CHECK (distintivoambiental IN ('CERO','ECO','B','C')),
 	tipo_vehiculo CHAR(15),
 	CHECK (tipo_vehiculo IN ('automovil','motocicleta','autocaravana')),
 	PRIMARY KEY (matricula)
@@ -131,42 +131,6 @@ CREATE TABLE Solicitud(
 	FOREIGN KEY (domicilio) REFERENCES Usuario
 	);
 
-CREATE TABLE Abono(
-	numeroabono CHAR(20),
-	movsostenible BOOLEAN,
-	tipo_abono CHAR(15),
-	CHECK (tipo_abono IN ('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
-	codigoplaza CHAR(20),
-	codigoparking CHAR(20),
-	PRIMARY KEY (numeroabono),
-	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial,
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
-	-- CHECK (sinreservanores)
-	-- CHECK (reservares)
-	);
-
-CREATE TABLE ContratoLaboral(
-	numcontrato CHAR(20),
-	fechainicio DATE,
-	fechafin DATE,
-	codigoparking CHAR(20),
-	nif CHAR(9),
-	PRIMARY KEY (numcontrato,numeroparking,nif,numcontrato),
-	FOREIGN KEY (numeroparking) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario
-	);
-
-CREATE TABLE ContratoAbono(
-	numcontrato CHAR(20),
-	fechainicio DATE,
-	fechafin DATE,
-	numeroabono CHAR(20),
-	nif CHAR(9),
-	PRIMARY KEY (numeroabono, nif,numcontrato),
-	FOREIGN KEY (numeroabono) REFERENCES Abono,
-	FOREIGN KEY (nif) REFERENCES Usuario
-	);
-
 CREATE TABLE PlazaResidencial(
 	coste FLOAT,
 	codigoplaza CHAR(20),
@@ -187,6 +151,42 @@ CREATE TABLE PlazaRotacional(
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	);
+
+CREATE TABLE Abono(
+	numeroabono CHAR(20),
+	movsostenible BOOLEAN,
+	tipo_abono CHAR(15),
+	CHECK (tipo_abono IN ('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
+	codigoplaza CHAR(20),
+	codigoparking CHAR(20),
+	PRIMARY KEY (numeroabono),
+	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial,
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
+	-- CHECK (sinreservanores)
+	-- CHECK (reservares)
+	);
+
+CREATE TABLE ContratoLaboral(
+	numcontrato CHAR(20),
+	fechainicio DATE,
+	fechafin DATE,
+	codigoparking CHAR(20),
+	nif CHAR(9),
+	PRIMARY KEY (numcontrato, codigoparking, nif, numcontrato),
+	FOREIGN KEY (codigoparking) REFERENCES Abono,
+	FOREIGN KEY (nif) REFERENCES Usuario
+	);
+
+CREATE TABLE ContratoAbono(
+	numcontrato CHAR(20),
+	fechainicio DATE,
+	fechafin DATE,
+	numeroabono CHAR(20),
+	nif CHAR(9),
+	PRIMARY KEY (numeroabono, nif,numcontrato),
+	FOREIGN KEY (numeroabono) REFERENCES Abono,
+	FOREIGN KEY (nif) REFERENCES Usuario
 	);
 
 CREATE TABLE Ticket(
