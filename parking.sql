@@ -54,6 +54,55 @@ CREATE TABLE Globales(
 	tarifacarav FLOAT
 	);
 
+CREATE TABLE Aparcamiento(
+	codigoparking CHAR(20),
+	numplazastotales INTEGER,
+       	numplazasocupadas INTEGER,
+	espaciobicis BOOLEAN,
+	espaciovmubasico BOOLEAN,
+	espaciovmuampliado BOOLEAN,
+	admisioncomerciante BOOLEAN,
+	tarifaautomovil FLOAT,
+	tarifaautocaravana FLOAT,
+	tarifamotocicleta FLOAT,
+	PRIMARY KEY (codigoparking),
+	CHECK (numplazastotales > 0),
+	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado)),
+	-- CHECK (tarifasmaximas)
+	);
+
+CREATE TABLE Usuario(
+	nombre CHAR(20),
+	apellidos CHAR(80),
+	nif CHAR(9),
+	domicilio CHAR(40),
+	residente BOOLEAN,
+	fianza FLOAT,
+	numcuotasnopagadas INTEGER,
+	pmr BOOLEAN,
+	PRIMARY KEY (nif)
+	);
+
+CREATE TABLE Vehiculo(
+	matricula CHAR(10),
+	modelo CHAR(30),
+	acreditacion BOOLEAN,
+	distintivoambiental CHAR(30),
+	CHECK (distintivo ambiental IN ('CERO','ECO','B','C')),
+	tipo_vehiculo CHAR(15),
+	CHECK (tipo_vehiculo IN ('automovil','motocicleta','autocaravana')),
+	PRIMARY KEY (matricula)
+	);
+
+CREATE TABLE Trabajador(
+	nombre CHAR(20),
+	apellidos CHAR(80),
+	nif CHAR(9),
+	domicilio CHAR(40),
+	gestor BOOLEAN,
+	PRIMARY KEY (nif)
+	);
+
 CREATE TABLE Valoracion(
 	codigov CHAR(20),
 	codigoparking CHAR(20),
@@ -73,39 +122,13 @@ CREATE TABLE Solicitud(
 	estado_solicitud CHAR(15),
 	CHECK (estado_solicitud IN ('aceptada','pendiente','cancelada')),
 	codigoparking CHAR(20),
-	CHECK (nplazasres),
+	-- CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento,
 	FOREIGN KEY (nombre) REFERENCES Usuario,
 	FOREIGN KEY (apellidos) REFERENCES Usuario,
 	FOREIGN KEY (nif) REFERENCES Usuario,
 	FOREIGN KEY (domicilio) REFERENCES Usuario
-	);
-
-CREATE TABLE Aparcamiento(
-	codigoparking CHAR(20),
-	numplazastotales INTEGER,
-       	numplazasocupadas INTEGER,
-	espaciobicis BOOLEAN,
-	espaciovmubasico BOOLEAN,
-	espaciovmuampliado BOOLEAN,
-	admisioncomerciante BOOLEAN,
-	tarifaautomovil FLOAT,
-	tarifaautocaravana FLOAT,
-	tarifamotocicleta FLOAT,
-	PRIMARY KEY (codigoparking),
-	CHECK (numplazastotales > 0),
-	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado)),
-	CHECK (tarifasmaximas)
-	);
-
-CREATE TABLE Trabajador(
-	nombre CHAR(20),
-	apellidos CHAR(80),
-	nif CHAR(9),
-	domicilio CHAR(40),
-	gestor BOOLEAN,
-	PRIMARY KEY (nif)
 	);
 
 CREATE TABLE Abono(
@@ -118,8 +141,8 @@ CREATE TABLE Abono(
 	PRIMARY KEY (numeroabono)
 	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
-	CHECK (sinreservanores)
-	CHECK (reservares)
+	-- CHECK (sinreservanores)
+	-- CHECK (reservares)
 	);
 
 CREATE TABLE ContratoLaboral(
@@ -142,18 +165,6 @@ CREATE TABLE ContratoAbono(
 	PRIMARY KEY (numeroabono, nif,numcontrato),
 	FOREIGN KEY (numeroabono) REFERENCES Abono,
 	FOREIGN KEY (nif) REFERENCES Usuario
-	);
-
-CREATE TABLE Usuario(
-	nombre CHAR(20),
-	apellidos CHAR(80),
-	nif CHAR(9),
-	domicilio CHAR(40),
-	residente BOOLEAN,
-	fianza FLOAT,
-	numcuotasnopagadas INTEGER,
-	pmr BOOLEAN,
-	PRIMARY KEY (nif)
 	);
 
 CREATE TABLE PlazaResidencial(
@@ -188,17 +199,6 @@ CREATE TABLE Ticket(
 	PRIMARY KEY (horae, matricula, fecha),
 	FOREIGN KEY (matricula) REFERENCES Vehiculo,
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
-	);
-
-CREATE TABLE Vehiculo(
-	matricula CHAR(10),
-	modelo CHAR(30),
-	acreditacion BOOLEAN,
-	distintivoambiental CHAR(30),
-	CHECK (distintivo ambiental IN ('CERO','ECO','B','C')),
-	tipo_vehiculo CHAR(15),
-	CHECK (tipo_vehiculo IN ('automovil','motocicleta','autocaravana')),
-	PRIMARY KEY (matricula)
 	);
 
 CREATE TABLE Referencia(
