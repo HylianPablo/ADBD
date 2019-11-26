@@ -13,38 +13,38 @@ DROP TABLE IF EXISTS Ticket;
 DROP TABLE IF EXISTS Vehiculo;
 DROP TABLE IF EXISTS Referencia;
 
-CREATE ASSERTION nplazasres(
-	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
-	CHECK (NOT EXISTS (SELECT *
-		FROM Solicitud S NATURAL JOIN Aparcamiento A
-		WHERE A.numplazastotales = (
-			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)))
-	);
+-- CREATE ASSERTION nplazasres(
+-- 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
+-- 	CHECK (NOT EXISTS (SELECT *
+-- 		FROM Solicitud S NATURAL JOIN Aparcamiento A
+-- 		WHERE A.numplazastotales = (
+-- 			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)))
+-- 	);
 
-CREATE ASSERTION sinreservanores(
-	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
-	-- y los otros tipos con una.)
-	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
-	CHECK (NOT EXISTS (SELECT *
-		FROM Abono A NATURAL JOIN PlazaResidencial PRes
-		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')))
-	);
+-- CREATE ASSERTION sinreservanores(
+-- 	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
+-- 	-- y los otros tipos con una.)
+-- 	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
+-- 	CHECK (NOT EXISTS (SELECT *
+-- 		FROM Abono A NATURAL JOIN PlazaResidencial PRes
+-- 		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')))
+-- 	);
 
-CREATE ASSERTION reservares(
-	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
-	-- y los otros tipos con una.)
-	-- No pueden existir abonos 'con reserva' o 'cesión' sin relacionar con una plaza residencial.
-	CHECK (NOT EXISTS (SELECT *
-		FROM Abono A
-		WHERE A.codigoplaza IS NULL AND A.tipo_abono IN ('conreserva', 'cesion')))
-	);
+-- CREATE ASSERTION reservares(
+-- 	-- (Un abono de tipo "sin reserva diurno/nocturno" tiene que estar relacionado con 0 plazas residenciales
+-- 	-- y los otros tipos con una.)
+-- 	-- No pueden existir abonos 'con reserva' o 'cesión' sin relacionar con una plaza residencial.
+-- 	CHECK (NOT EXISTS (SELECT *
+-- 		FROM Abono A
+-- 		WHERE A.codigoplaza IS NULL AND A.tipo_abono IN ('conreserva', 'cesion')))
+-- 	);
 
-CREATE ASSERTION tarifasmaximas(
-	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
-	CHECK ( (SELECT G.tarifamaxauto FROM Globales G) >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A)),
-	CHECK ( (SELECT G.tarifamaxmoto FROM Globales G) >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A)),
-	CHECK ( (SELECT G.tarifamaxcarav FROM Globales G) >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
-	);
+-- CREATE ASSERTION tarifasmaximas(
+-- 	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
+-- 	CHECK ( (SELECT G.tarifamaxauto FROM Globales G) >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A)),
+-- 	CHECK ( (SELECT G.tarifamaxmoto FROM Globales G) >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A)),
+-- 	CHECK ( (SELECT G.tarifamaxcarav FROM Globales G) >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
+-- 	);
 
 CREATE TABLE Globales(
 	tarifamaxauto FLOAT,
