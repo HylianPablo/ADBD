@@ -18,7 +18,7 @@ CREATE ASSERTION nplazasres(
 	CHECK (NOT EXISTS (SELECT *
 		FROM Solicitud S NATURAL JOIN Aparcamiento A
 		WHERE A.numplazastotales = (
-			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)
+			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)))
 	);
 
 CREATE ASSERTION sinreservanores(
