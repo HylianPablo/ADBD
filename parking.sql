@@ -375,10 +375,6 @@ INSERT INTO ContratoAbono VALUES ('982V___101','2018-06-06','2020-12-30','281453
 INSERT INTO ContratoAbono VALUES ('432X___110','2010-07-07','2011-12-30','012815432X','12432100G','fallecimiento');
 INSERT INTO ContratoAbono VALUES ('756G___002','2011-09-09','2014-12-30','284440756G','71188507B','fallecimiento');
 
-CHECK (motivo IN ('concesion', 'fallecimiento',
-	'venta-vivienda', 'liquidacion-gananciales', 'perdida-residencia', 'interes-particular', 'cesion-residente', 'renovacion')),
-
-
 INSERT INTO Ticket VALUES ('18:00','7391-FSL','2019-11-11','123456D',3,'19:00');
 INSERT INTO Ticket VALUES ('18:10','6794-DXV','2018-07-05','398930Q',2.3,'20:07');
 INSERT INTO Ticket VALUES ('19:00','0588-GJC','2013-04-27','648509K',0.4,'19:30');
