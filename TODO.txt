@@ -2,7 +2,7 @@ Grupo 09
 
 TODO
 ---------------
-Poner bonito el vpp &
+Poner bonito el vpp -HECHO
 Actualizar el diagrama relacional -HECHO
 Poner bonito el susodicho -HECHO
 Restricciones @
