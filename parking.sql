@@ -65,6 +65,7 @@ CREATE TABLE Aparcamiento(
 	tarifaautomovil FLOAT,
 	tarifaautocaravana FLOAT,
 	tarifamotocicleta FLOAT,
+	areadeinfluencia CHAR(40),
 	PRIMARY KEY (codigoparking),
 	CHECK (numplazastotales > 0),
 	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado))
@@ -125,6 +126,7 @@ CREATE TABLE Solicitud(
 	estado_solicitud CHAR(15),
 	CHECK (estado_solicitud IN ('aceptada','pendiente','cancelada')),
 	codigoparking CHAR(20),
+	movilidadsostenible BOOLEAN,
 	-- CHECK (nplazasres),
 	PRIMARY KEY  (codigosolicitud),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking),
@@ -189,6 +191,8 @@ CREATE TABLE ContratoAbono(
 	fechafin DATE,
 	numeroabono CHAR(20),
 	nif CHAR(9),
+	motivo CHAR(30),
+	CHECK (motivo IN ('concesion', 'fallecimiento', 'venta-vivienda', 'liquidacion-gananciales', 'perdida-residencia', 'interes-particular', 'cesion-residente', 'renovacion')),
 	PRIMARY KEY (numeroabono, nif, numcontrato),
 	FOREIGN KEY (numeroabono) REFERENCES Abono(numeroabono),
 	FOREIGN KEY (nif) REFERENCES Usuario(nif)
@@ -219,16 +223,16 @@ CREATE TABLE Referencia(
 
 INSERT INTO Globales VALUES (1000000000, 1000000000, 1000000000);
 
-INSERT INTO Aparcamiento VALUES ('123456D',200,80,true,true,true,true,2.5,1.2,3);
-INSERT INTO Aparcamiento VALUES ('398930Q',200,90,true,true,false,false,2.3,1.1,2.9);
-INSERT INTO Aparcamiento VALUES ('648509K',230,80,false,true,false,false,2,1,2.5);
-INSERT INTO Aparcamiento VALUES ('626873M',100,70,false,false,false,false,1.8,0.8,3.4);
-INSERT INTO Aparcamiento VALUES ('592849H',300,190,true,true,true,false,2.6,1.4,3.2);
-INSERT INTO Aparcamiento VALUES ('214749H',300,186,true,true,true,true,2,1.4,3.2);
-INSERT INTO Aparcamiento VALUES ('590348L',100,53,true,true,true,true,1.6,1.4,3.4);
-INSERT INTO Aparcamiento VALUES ('111111M',210,150,false,false,false,false,1.8,1.6,2.8);
-INSERT INTO Aparcamiento VALUES ('789214R',125,63,true,false,false,false,2.4,1.2,3);
-INSERT INTO Aparcamiento VALUES ('103647K',238,162,false,false,false,false,2.7,1.6,2.7);
+INSERT INTO Aparcamiento VALUES ('123456D',200,80,true,true,true,true,2.5,1.2,3,'chamartin');
+INSERT INTO Aparcamiento VALUES ('398930Q',200,90,true,true,false,false,2.3,1.1,2.9,'atocha');
+INSERT INTO Aparcamiento VALUES ('648509K',230,80,false,true,false,false,2,1,2.5,'plaza mayor');
+INSERT INTO Aparcamiento VALUES ('626873M',100,70,false,false,false,false,1.8,0.8,3.4,'puerta del sol');
+INSERT INTO Aparcamiento VALUES ('592849H',300,190,true,true,true,false,2.6,1.4,3.2,'cuatro quesos');
+INSERT INTO Aparcamiento VALUES ('214749H',300,186,true,true,true,true,2,1.4,3.2,'las ramblas');
+INSERT INTO Aparcamiento VALUES ('590348L',100,53,true,true,true,true,1.6,1.4,3.4,'las viudas');
+INSERT INTO Aparcamiento VALUES ('111111M',210,150,false,false,false,false,1.8,1.6,2.8,'parquesol');
+INSERT INTO Aparcamiento VALUES ('789214R',125,63,true,false,false,false,2.4,1.2,3,'wabu sabi');
+INSERT INTO Aparcamiento VALUES ('103647K',238,162,false,false,false,false,2.7,1.6,2.7,'uva');
 
 INSERT INTO Usuario VALUES ('Juan','Gatón Díez','71189567Q','Calle Luz, 8',true,0,0,false);
 INSERT INTO Usuario VALUES ('Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C',true,0,0,false);
@@ -278,20 +282,20 @@ INSERT INTO Valoracion VALUES ('111111M1114455873','111111M','correcto');
 INSERT INTO Valoracion VALUES ('789214R1474587566','789214R','hace frio den la calefaccion');
 INSERT INTO Valoracion VALUES ('103647K5555547855','103647K','pesimo');
 
-INSERT INTO Solicitud VALUES ('123456D74841277493','Juan','Gatón Díez','71189567Q','Calle Luz, 8',true,'2011-04-14','aceptada','123456D');
-INSERT INTO Solicitud VALUES ('398930Q77491833085','Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C',true,'2013-08-24','aceptada','398930Q');
-INSERT INTO Solicitud VALUES ('626873M29072047247','Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B',true,'2017-01-07','aceptada','626873M');
-INSERT INTO Solicitud VALUES ('648509K74851257493','Lucia','Casquete Manso','12348672V','Calle Tokio, 13',false,'2017-12-12','cancelada','648509K');
-INSERT INTO Solicitud VALUES ('123456D92218447982','Pedro','García Pérez','12439680G','Calle Aurora, 89',true,'2018-06-15','pendiente','123456D');
-INSERT INTO Solicitud VALUES ('626873M10101010145','Marcos','López Pérez','12439681W','Calle Uno, 9',true,'2014-06-15','aceptada','626873M');
-INSERT INTO Solicitud VALUES ('214749H00000000001','Yuri','García Fernandez','12439682K','Calle Dos, 99',true,'2019-06-15','pendiente','214749H');
-INSERT INTO Solicitud VALUES ('648509K11111111110','Carlos','Rojo Ramos','63459680P','Calle Cuatro, 81',true,'2018-04-15','cancelada','648509K');
-INSERT INTO Solicitud VALUES ('123456D45874587463','Lucas','Cabero Franco','12432100G','Calle Tres, 29',false,'2018-01-05','pendiente','123456D');
-INSERT INTO Solicitud VALUES ('111111M23789452145','Victor','Martinez Sanz','00000001A','Calle Cinco, 29',false,'2018-04-15','aceptada','111111M');
-INSERT INTO Solicitud VALUES ('214749H00001141254','Santiago','Ruiz López','00000002B','Calle Seis, 39',true,'2017-11-14','cancelada','214749H');
-INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','00000003C','Calle Tres, 74',true,'2018-05-13','aceptada','626873M');
-INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,'2018-01-04','cancelada','214749H');
-INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,'2019-08-14','aceptada','103647K');
+INSERT INTO Solicitud VALUES ('123456D74841277493','Juan','Gatón Díez','71189567Q','Calle Luz, 8',true,'2011-04-14','aceptada','123456D',false);
+INSERT INTO Solicitud VALUES ('398930Q77491833085','Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C',true,'2013-08-24','aceptada','398930Q',false);
+INSERT INTO Solicitud VALUES ('626873M29072047247','Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B',true,'2017-01-07','aceptada','626873M',false);
+INSERT INTO Solicitud VALUES ('648509K74851257493','Lucia','Casquete Manso','12348672V','Calle Tokio, 13',false,'2017-12-12','cancelada','648509K',true);
+INSERT INTO Solicitud VALUES ('123456D92218447982','Pedro','García Pérez','12439680G','Calle Aurora, 89',true,'2018-06-15','pendiente','123456D',false);
+INSERT INTO Solicitud VALUES ('626873M10101010145','Marcos','López Pérez','12439681W','Calle Uno, 9',true,'2014-06-15','aceptada','626873M',true);
+INSERT INTO Solicitud VALUES ('214749H00000000001','Yuri','García Fernandez','12439682K','Calle Dos, 99',true,'2019-06-15','pendiente','214749H',true);
+INSERT INTO Solicitud VALUES ('648509K11111111110','Carlos','Rojo Ramos','63459680P','Calle Cuatro, 81',true,'2018-04-15','cancelada','648509K',false);
+INSERT INTO Solicitud VALUES ('123456D45874587463','Lucas','Cabero Franco','12432100G','Calle Tres, 29',false,'2018-01-05','pendiente','123456D',false);
+INSERT INTO Solicitud VALUES ('111111M23789452145','Victor','Martinez Sanz','00000001A','Calle Cinco, 29',false,'2018-04-15','aceptada','111111M',true);
+INSERT INTO Solicitud VALUES ('214749H00001141254','Santiago','Ruiz López','00000002B','Calle Seis, 39',true,'2017-11-14','cancelada','214749H',false);
+INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','00000003C','Calle Tres, 74',true,'2018-05-13','aceptada','626873M',false);
+INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,'2018-01-04','cancelada','214749H',true);
+INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,'2019-08-14','aceptada','103647K',false);
 
 INSERT INTO PlazaResidencial VALUES (100, '123456D00198', true, true, true,'123456D');
 INSERT INTO PlazaResidencial VALUES (130.4, '398930Q00125', true, true, true,'398930Q');
@@ -357,19 +361,23 @@ INSERT INTO ContratoLaboral VALUES ('103647K99N100','2013-10-30','2016-04-06','1
 INSERT INTO ContratoLaboral VALUES ('648509K55D110','2012-09-12','2015-05-14','648509K','75855555D');
 INSERT INTO ContratoLaboral VALUES ('592849H69B111','2011-10-05','2013-03-06','592849H','16748369B');
 
-INSERT INTO ContratoAbono VALUES ('988W___658','2014-01-03','2015-12-30','480974988W','00000001A');
-INSERT INTO ContratoAbono VALUES ('735J___465','2016-01-07','2017-12-30','509535735J','00000002B');
-INSERT INTO ContratoAbono VALUES ('490Y___357','2014-01-08','2015-12-30','641292490Y','00000003C');
-INSERT INTO ContratoAbono VALUES ('428P___078','2017-01-10','2018-12-30','031544428P','00000004D');
-INSERT INTO ContratoAbono VALUES ('982C___538','2018-01-01','2019-12-30','282840982C','71189567Q');
-INSERT INTO ContratoAbono VALUES ('342M___001','2014-01-01','2015-12-30','282812342M','12438957J');
-INSERT INTO ContratoAbono VALUES ('982A___000','2015-02-02','2016-12-30','567840982A','71183668S');
-INSERT INTO ContratoAbono VALUES ('982M___010','2018-03-03','2019-12-30','242834982M','12439680G');
-INSERT INTO ContratoAbono VALUES ('980L___011','2016-04-04','2017-12-30','211140980L','12439681W');
-INSERT INTO ContratoAbono VALUES ('752S___100','2016-05-05','2018-12-30','012840752S','12439682K');
-INSERT INTO ContratoAbono VALUES ('982V___101','2018-06-06','2020-12-30','281453982V','63459680P');
-INSERT INTO ContratoAbono VALUES ('432X___110','2010-07-07','2011-12-30','012815432X','12432100G');
-INSERT INTO ContratoAbono VALUES ('756G___002','2011-09-09','2014-12-30','284440756G','71188507B');
+INSERT INTO ContratoAbono VALUES ('988W___658','2014-01-03','2015-12-30','480974988W','00000001A','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('735J___465','2016-01-07','2017-12-30','509535735J','00000002B','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('490Y___357','2014-01-08','2015-12-30','641292490Y','00000003C','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('428P___078','2017-01-10','2018-12-30','031544428P','00000004D','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('982C___538','2018-01-01','2019-12-30','282840982C','71189567Q','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('342M___001','2014-01-01','2015-12-30','282812342M','12438957J','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('982A___000','2015-02-02','2016-12-30','567840982A','71183668S','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('982M___010','2018-03-03','2019-12-30','242834982M','12439680G','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('980L___011','2016-04-04','2017-12-30','211140980L','12439681W','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('752S___100','2016-05-05','2018-12-30','012840752S','12439682K','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('982V___101','2018-06-06','2020-12-30','281453982V','63459680P','renovacion');
+INSERT INTO ContratoAbono VALUES ('432X___110','2010-07-07','2011-12-30','012815432X','12432100G','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('756G___002','2011-09-09','2014-12-30','284440756G','71188507B','fallecimiento');
+
+CHECK (motivo IN ('concesion', 'fallecimiento',
+	'venta-vivienda', 'liquidacion-gananciales', 'perdida-residencia', 'interes-particular', 'cesion-residente', 'renovacion')),
+
 
 INSERT INTO Ticket VALUES ('18:00','7391-FSL','2019-11-11','123456D',3,'19:00');
 INSERT INTO Ticket VALUES ('18:10','6794-DXV','2018-07-05','398930Q',2.3,'20:07');
