@@ -47,6 +47,30 @@ DROP TABLE IF EXISTS Globales;
 -- 	CHECK ( (SELECT G.tarifamaxmoto FROM Globales G) >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A)),
 -- 	CHECK ( (SELECT G.tarifamaxcarav FROM Globales G) >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
 -- 	);
+--
+-- CREATE ASSERTION plazaresidencialenparking(
+--	CHECK ( NOT EXISTS( SELECT *
+--		FROM Abono Ab NATURAL JOIN PlazaResidencial Pres
+--		WHERE Ab.codigoparking<>Pres.codigoparking))
+--	);
+--
+-- CREATE ASSERTION movilidadsosteniblerotacional(
+--	CHECK ( NOT EXISTS (SELECT *
+--		FROM Aparcamiento Ap NATURAL JOIN Abono Ab
+--		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')
+--			AND NOT EXISTS (SELECT *
+--			FROM Aparcamiento Ap NATURAL JOIN PlazaRotacional Prot
+--			WHERE Prot.recargaelec=TRUE)))
+--	);
+--
+-- CREATE ASSERTION movilidadsostenibleresidencial(
+--	CHECK ( NOT EXISTS (SELECT *
+--		FROM Abono Ab NATURAL JOIN PlazaResidencial Pres
+--		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('conreserva', 'cesion')
+--			AND Pres.recargaelec=FALSE))
+--	);
+
+
 
 CREATE TABLE Globales(
 	tarifamaxauto FLOAT,
