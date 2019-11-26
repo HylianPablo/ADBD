@@ -82,7 +82,8 @@ CREATE TABLE Usuario(
 	pmr BOOLEAN,
 	PRIMARY KEY (nif),
 	UNIQUE (nombre),
-	UNIQUE (apellidos)
+	UNIQUE (apellidos),
+	UNIQUE (domicilio)
 	);
 
 CREATE TABLE Vehiculo(
@@ -178,7 +179,7 @@ CREATE TABLE ContratoLaboral(
 	codigoparking CHAR(20),
 	nif CHAR(9),
 	PRIMARY KEY (numcontrato, codigoparking, nif),
-	FOREIGN KEY (codigoparking) REFERENCES Abono(codigoparking),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking),
 	FOREIGN KEY (nif) REFERENCES Usuario(nif)
 	);
 
