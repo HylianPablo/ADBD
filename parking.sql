@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS PlazaRotacional;
 DROP TABLE IF EXISTS Ticket;
 DROP TABLE IF EXISTS Vehiculo;
 DROP TABLE IF EXISTS Referencia;
+DROP TABLE IF EXISTS Globales;
+DROP TABLE IF EXISTS Usuario;
 
 -- CREATE ASSERTION nplazasres(
 -- 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
