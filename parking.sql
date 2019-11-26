@@ -67,7 +67,7 @@ CREATE TABLE Aparcamiento(
 	tarifamotocicleta FLOAT,
 	PRIMARY KEY (codigoparking),
 	CHECK (numplazastotales > 0),
-	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado)),
+	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado))
 	-- CHECK (tarifasmaximas)
 	);
 
@@ -138,8 +138,8 @@ CREATE TABLE Abono(
 	CHECK (tipo_abono IN ('conreserva','sinreserva-diurno','sinreserva-nocturno','cesion')),
 	codigoplaza CHAR(20),
 	codigoparking CHAR(20),
-	PRIMARY KEY (numeroabono)
-	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial
+	PRIMARY KEY (numeroabono),
+	FOREIGN KEY (codigoplaza) REFERENCES PlazaResidencial,
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento
 	-- CHECK (sinreservanores)
 	-- CHECK (reservares)
