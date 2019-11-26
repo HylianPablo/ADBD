@@ -27,7 +27,7 @@ CREATE ASSERTION sinreservanores(
 	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
 	CHECK (NOT EXISTS (SELECT *
 		FROM Abono A NATURAL JOIN PlazaResidencial PRes
-		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno'))
+		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')))
 	);
 
 CREATE ASSERTION reservares(
