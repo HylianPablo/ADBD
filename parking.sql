@@ -43,9 +43,10 @@ DROP TABLE IF EXISTS Globales;
 
 -- CREATE ASSERTION tarifasmaximas(
 -- 	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
--- 	CHECK ( (SELECT G.tarifamaxauto FROM Globales G) >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A)),
--- 	CHECK ( (SELECT G.tarifamaxmoto FROM Globales G) >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A)),
--- 	CHECK ( (SELECT G.tarifamaxcarav FROM Globales G) >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
+-- 	CHECK ( EXISTS (SELECT * FROM Globales G 
+--		WHERE G.tarifamaxauto >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A) AND
+--		G.tarifamaxmoto >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A) AND
+--		G.tarifamaxcarav >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
 -- 	);
 --
 -- CREATE ASSERTION plazaresidencialenparking(
@@ -60,14 +61,14 @@ DROP TABLE IF EXISTS Globales;
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')
 --			AND NOT EXISTS (SELECT *
 --			FROM Aparcamiento Ap NATURAL JOIN PlazaRotacional Prot
---			WHERE Prot.recargaelec=TRUE)))
+--			WHERE Prot.recargaelectrica=TRUE)))
 --	);
 --
 -- CREATE ASSERTION movilidadsostenibleresidencial(
 --	CHECK ( NOT EXISTS (SELECT *
 --		FROM Abono Ab NATURAL JOIN PlazaResidencial Pres
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('conreserva', 'cesion')
---			AND Pres.recargaelec=FALSE))
+--			AND Pres.recargaelectrica=FALSE))
 --	);
 
 
@@ -75,7 +76,7 @@ DROP TABLE IF EXISTS Globales;
 CREATE TABLE Globales(
 	tarifamaxauto FLOAT,
 	tarifamaxmoto FLOAT,
-	tarifacarav FLOAT
+	tarifamaxcarav FLOAT
 	);
 
 CREATE TABLE Aparcamiento(
@@ -385,19 +386,20 @@ INSERT INTO ContratoLaboral VALUES ('103647K99N100','2013-10-30','2016-04-06','1
 INSERT INTO ContratoLaboral VALUES ('648509K55D110','2012-09-12','2015-05-14','648509K','75855555D');
 INSERT INTO ContratoLaboral VALUES ('592849H69B111','2011-10-05','2013-03-06','592849H','16748369B');
 
-INSERT INTO ContratoAbono VALUES ('988W___658','2014-01-03','2015-12-30','480974988W','00000001A','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('735J___465','2016-01-07','2017-12-30','509535735J','00000002B','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('490Y___357','2014-01-08','2015-12-30','641292490Y','00000003C','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('428P___078','2017-01-10','2018-12-30','031544428P','00000004D','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('982C___538','2018-01-01','2019-12-30','282840982C','71189567Q','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('342M___001','2014-01-01','2015-12-30','282812342M','12438957J','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('982A___000','2015-02-02','2016-12-30','567840982A','71183668S','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('982M___010','2018-03-03','2019-12-30','242834982M','12439680G','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('980L___011','2016-04-04','2017-12-30','211140980L','12439681W','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('752S___100','2016-05-05','2018-12-30','012840752S','12439682K','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('982V___101','2018-06-06','2020-12-30','281453982V','63459680P','renovacion');
-INSERT INTO ContratoAbono VALUES ('432X___110','2010-07-07','2011-12-30','012815432X','12432100G','fallecimiento');
-INSERT INTO ContratoAbono VALUES ('756G___002','2011-09-09','2014-12-30','284440756G','71188507B','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('988W01A658','2014-01-03','2015-12-30','480974988W','00000001A','concesion');
+INSERT INTO ContratoAbono VALUES ('735J02B465','2016-01-07','2017-12-30','509535735J','00000002B','concesion');
+INSERT INTO ContratoAbono VALUES ('490Y03C357','2014-01-08','2015-12-30','641292490Y','00000003C','concesion');
+INSERT INTO ContratoAbono VALUES ('428P04D078','2017-01-10','2018-12-30','031544428P','00000004D','concesion');
+INSERT INTO ContratoAbono VALUES ('982C67Q538','2018-01-01','2019-12-30','282840982C','71189567Q','concesion');
+INSERT INTO ContratoAbono VALUES ('342M57J001','2014-01-01','2015-12-30','282812342M','12438957J','concesion');
+INSERT INTO ContratoAbono VALUES ('982A68S000','2015-02-02','2016-12-30','567840982A','71183668S','concesion');
+INSERT INTO ContratoAbono VALUES ('982M80G010','2018-03-03','2019-12-30','242834982M','12439680G','concesion');
+INSERT INTO ContratoAbono VALUES ('980L81W011','2016-04-04','2017-12-30','211140980L','12439681W','concesion');
+INSERT INTO ContratoAbono VALUES ('752S82K100','2016-05-05','2017-12-30','012840752S','12439682K','fallecimiento');
+INSERT INTO ContratoAbono VALUES ('752S82K000','2017-12-30','2018-12-30','012840752S','12439682K','renovacion');
+INSERT INTO ContratoAbono VALUES ('982V80P101','2018-06-06','2020-12-30','281453982V','63459680P','concesion');
+INSERT INTO ContratoAbono VALUES ('432X00G110','2010-07-07','2011-12-30','012815432X','12432100G','concesion');
+INSERT INTO ContratoAbono VALUES ('756G07B002','2011-09-09','2014-12-30','284440756G','71188507B','concesion');
 
 INSERT INTO Ticket VALUES ('18:00','7391-FSL','2019-11-11','123456D',3,'19:00');
 INSERT INTO Ticket VALUES ('18:10','6794-DXV','2018-07-05','398930Q',2.3,'20:07');
@@ -410,3 +412,17 @@ INSERT INTO Referencia VALUES ('6794-DXV', '509535735J', '2016-06-15', '2018-05-
 INSERT INTO Referencia VALUES ('0588-GJC', '282840982C', '2013-06-12', '2015-12-21');
 INSERT INTO Referencia VALUES ('5537-YUP', '282812342M', '2014-02-12', '2016-01-21');
 INSERT INTO Referencia VALUES ('2134-FCK', '567840982A', '2016-12-15', '2018-06-01');
+
+--	VISTAS
+--
+--	CREATE VIEW VistaGestor(nombre, apellidos, nif) AS
+--	SELECT U.nombre, U.apellidos, U.nif, U.PMR
+--	FROM Usuario U
+--	WHERE U.pmr=FALSE AND U.residente=TRUE
+
+--	CONSULTAS
+--
+--	SELECT V.matricula, COUNT(*)
+--	FROM Ticket T NATURAL JOIN Vehiculo V
+--	WHERE V.distAmbiental='C' AND T.fecha='2019-11-11'
+
