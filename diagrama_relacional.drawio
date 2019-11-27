@@ -1,14 +1,14 @@
-<mxfile host="www.draw.io" modified="2019-11-26T15:37:17.266Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="i606Zs4NecLGJUU0TLeI" version="12.3.1" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-11-27T18:16:14.180Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="vNDjw2PSYUViL02WEtRE" version="12.3.2" type="github" pages="1">
   <diagram id="I9IrVg-XSZB7Qn-Kv-cK" name="Page-1">
-    <mxGraphModel dx="1564" dy="1430" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="782" dy="715" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-12" value="&lt;div&gt;Solicitud( &lt;u&gt;códigoSolicitud&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,nombre, apellidos, NIF/CIF, Domicilio, Acreditación de residencia, fecha, estado, codigoParking, movilidadSostenible)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="822.5" y="190" width="1070" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-13" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Aparcamiento(&lt;/span&gt;&lt;u&gt;códigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt; numPlazasTotales, numPlazasOcupadas,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&amp;nbsp;espacioBicis, espacioVMU, admComerciantes, tarifaV, tarifaM, tarifaA&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, areaInfluencia)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="1" vertex="1">
-          <mxGeometry x="60" y="290" width="980" height="20" as="geometry"/>
+        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-13" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Aparcamiento(&lt;/span&gt;&lt;u&gt;códigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt; numPlazasTotales, numPlazasOcupadas,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&amp;nbsp;espacioBicis, espacioVMU, admComerciantes, tarifaV, tarifaM, tarifaA&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, areaInfluencia, espacioVMUampliado)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="1" vertex="1">
+          <mxGeometry x="60" y="290" width="1120" height="20" as="geometry"/>
         </mxCell>
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-14" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Abono(&lt;/span&gt;&lt;u&gt;numeroAbono&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, movSostenible, tipo, códigoPlaza, códigoParking)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1120" y="740" width="446" height="30" as="geometry"/>
@@ -71,13 +71,13 @@
         <mxCell id="G0HUlT2vcON83zbuiVgl-17" value="Incidencia(NIF,&lt;u&gt;código&lt;/u&gt;,descripción,fecha)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="900" y="490" width="40" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="G0HUlT2vcON83zbuiVgl-18" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+        <mxCell id="G0HUlT2vcON83zbuiVgl-18" value="" style="endArrow=classic;html=1;entryX=0.212;entryY=-0.2;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1" target="2ZlXiWUkkiC4Hj5eQH3b-22">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1480" y="580" as="sourcePoint"/>
+            <mxPoint x="1480" y="610" as="sourcePoint"/>
             <mxPoint x="1130" y="450" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="1480" y="470"/>
-              <mxPoint x="1130" y="470"/>
+              <mxPoint x="1480" y="710"/>
+              <mxPoint x="1114" y="710"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -95,7 +95,7 @@
         <mxCell id="azdm0dHMtsbySCDP1iI7-4" value="ContratoLaboral(NIF&lt;u&gt;,codigoParking,&lt;/u&gt;fechaInicio,fechaFin,&lt;u&gt;numContrato&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="390" y="130" width="390" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="azdm0dHMtsbySCDP1iI7-6" value="" style="endArrow=classic;html=1;exitX=0.729;exitY=1.15;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1" source="2ZlXiWUkkiC4Hj5eQH3b-12">
+        <mxCell id="azdm0dHMtsbySCDP1iI7-6" value="" style="endArrow=classic;html=1;exitX=0.729;exitY=1.15;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-12" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1590" y="260" as="sourcePoint"/>
             <mxPoint x="210" y="280" as="targetPoint"/>
@@ -204,8 +204,8 @@
             <mxPoint x="1220" y="220" as="sourcePoint"/>
             <mxPoint x="1120" y="400" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="1220" y="280"/>
-              <mxPoint x="1120" y="280"/>
+              <mxPoint x="1220" y="340"/>
+              <mxPoint x="1120" y="340"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -214,8 +214,8 @@
             <mxPoint x="1280" y="220" as="sourcePoint"/>
             <mxPoint x="1160" y="410" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="1280" y="290"/>
-              <mxPoint x="1160" y="290"/>
+              <mxPoint x="1280" y="350"/>
+              <mxPoint x="1160" y="350"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -257,10 +257,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PRofn_bKHYjtpdTf7ijA-2" value="Persona(nombre, apellidos, &lt;u&gt;NIF/CIF&lt;/u&gt;, domicilio)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];;autosize=1;" vertex="1" parent="1">
+        <mxCell id="PRofn_bKHYjtpdTf7ijA-2" value="Persona(nombre, apellidos, &lt;u&gt;NIF/CIF&lt;/u&gt;, domicilio)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];;autosize=1;" parent="1" vertex="1">
           <mxGeometry x="920" y="420" width="300" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="PRofn_bKHYjtpdTf7ijA-3" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+        <mxCell id="PRofn_bKHYjtpdTf7ijA-3" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="900" y="70" as="sourcePoint"/>
             <mxPoint x="1100" y="450" as="targetPoint"/>
@@ -269,7 +269,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PRofn_bKHYjtpdTf7ijA-6" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+        <mxCell id="PRofn_bKHYjtpdTf7ijA-6" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1120" y="870" as="sourcePoint"/>
             <mxPoint x="1120" y="460" as="targetPoint"/>
