@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-11-28T16:38:28.489Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="TNBpgPmWnTUWZa4S714T" version="12.3.3" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-11-28T17:07:32.368Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="eR_Dc_vfeu-ziaPk7dHe" version="12.3.3" type="github" pages="1">
   <diagram id="I9IrVg-XSZB7Qn-Kv-cK" name="Page-1">
     <mxGraphModel dx="1643" dy="1021" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -7,14 +7,14 @@
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-12" value="&lt;div&gt;Solicitud( &lt;u&gt;códigoSolicitud&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, NIF/CIF, acreditacionResidencia, fecha, estado, codigoParking, movilidadSostenible, docAcreditativoVeh, matricula)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="720" y="360" width="1070" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-13" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Aparcamiento(&lt;/span&gt;&lt;u&gt;códigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt; numPlazasTotales, numPlazasOcupadas,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&amp;nbsp;espacioBicis, espacioVMU, admComerciantes, tarifaV, tarifaM, tarifaA&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, areaInfluencia, espacioVMUampliado)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="1" vertex="1">
-          <mxGeometry x="60" y="170" width="1120" height="20" as="geometry"/>
+        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-13" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Aparcamiento(&lt;/span&gt;&lt;u&gt;codigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt; numPlazasTotales, numPlazasOcupadas,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&amp;nbsp;espacioBicis, espacioVMU, admComerciantes, tarifaAm, tarifaM, tarifaAc&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, areaInfluencia, espacioVMUampliado)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="1" vertex="1">
+          <mxGeometry x="60" y="170" width="1140" height="20" as="geometry"/>
         </mxCell>
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-14" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Abono(&lt;/span&gt;&lt;u&gt;numeroAbono&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, movSostenible, tipo, códigoPlaza, códigoParking)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1120" y="735" width="446" height="30" as="geometry"/>
         </mxCell>
-        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-15" value="&lt;span style=&quot;text-decoration: none&quot;&gt;ContratoAbono(fechaInicio,fechaFin,&lt;/span&gt;&lt;u&gt;numeroAbono&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;u&gt;&amp;nbsp;NIF&lt;/u&gt;, &lt;u&gt;numContrato&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1160" y="620" width="445" height="20" as="geometry"/>
+        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-15" value="&lt;span style=&quot;text-decoration: none&quot;&gt;ContratoAbono(fechaInicio,fechaFin,&lt;/span&gt;&lt;u&gt;numeroAbono&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;u&gt;&amp;nbsp;NIF&lt;/u&gt;, &lt;u&gt;numContrato&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&lt;u&gt;,&lt;/u&gt; motivo)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="1120" y="620" width="510" height="20" as="geometry"/>
         </mxCell>
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-16" value="&lt;p style=&quot;margin-bottom: 0cm ; line-height: 100%&quot; align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;PlazaResidencial(coste, &lt;/span&gt;&lt;u&gt;códigoPlaza&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, recargaElec, deshabilitado, &lt;/span&gt;&lt;u&gt;codigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, PMR)&lt;/span&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry y="430" width="670" height="20" as="geometry"/>
@@ -40,9 +40,9 @@
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-28" value="&lt;span style=&quot;text-decoration: none&quot;&gt;Referencia&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;(&lt;/span&gt;&lt;u&gt;matricula&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;u&gt; numeroAbono,&lt;/u&gt; &lt;u&gt;fechaInicio,&lt;/u&gt; fechaFin&lt;span style=&quot;text-decoration: none&quot;&gt;)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="660" y="890" width="373" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="G0HUlT2vcON83zbuiVgl-4" value="" style="endArrow=classic;html=1;entryX=0.138;entryY=1.15;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.41;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="azdm0dHMtsbySCDP1iI7-4" target="2ZlXiWUkkiC4Hj5eQH3b-13" edge="1">
+        <mxCell id="G0HUlT2vcON83zbuiVgl-4" value="" style="endArrow=classic;html=1;entryX=0.138;entryY=1.15;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.413;exitY=0.021;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="azdm0dHMtsbySCDP1iI7-4" target="2ZlXiWUkkiC4Hj5eQH3b-13" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="550" y="230" as="sourcePoint"/>
+            <mxPoint x="489" y="270" as="sourcePoint"/>
             <mxPoint x="190" y="280" as="targetPoint"/>
             <Array as="points">
               <mxPoint x="489" y="260"/>
@@ -50,7 +50,7 @@
               <mxPoint x="380" y="260"/>
               <mxPoint x="320" y="260"/>
               <mxPoint x="290" y="260"/>
-              <mxPoint x="215" y="260"/>
+              <mxPoint x="217" y="260"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -70,12 +70,12 @@
         <mxCell id="G0HUlT2vcON83zbuiVgl-17" value="Incidencia(NIF,&lt;u&gt;código&lt;/u&gt;,descripción,fecha)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="900" y="530" width="40" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="G0HUlT2vcON83zbuiVgl-18" value="" style="endArrow=classic;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-15" edge="1">
+        <mxCell id="G0HUlT2vcON83zbuiVgl-18" value="" style="endArrow=classic;html=1;exitX=0.678;exitY=-0.05;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-15" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1494" y="630" as="sourcePoint"/>
             <mxPoint x="1114" y="560" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="1494" y="600"/>
+              <mxPoint x="1466" y="600"/>
               <mxPoint x="1114" y="600"/>
             </Array>
           </mxGeometry>
@@ -100,7 +100,7 @@
             <mxPoint x="221" y="310" as="targetPoint"/>
             <Array as="points">
               <mxPoint x="1347" y="240"/>
-              <mxPoint x="228" y="240"/>
+              <mxPoint x="231" y="240"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -195,7 +195,7 @@
               <mxPoint x="730" y="620"/>
               <mxPoint x="730" y="590"/>
               <mxPoint x="730" y="360"/>
-              <mxPoint x="200" y="360"/>
+              <mxPoint x="204" y="360"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -239,10 +239,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PRofn_bKHYjtpdTf7ijA-6" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.714;entryY=1.236;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-22" edge="1" target="PRofn_bKHYjtpdTf7ijA-2">
+        <mxCell id="PRofn_bKHYjtpdTf7ijA-6" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-22" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1120" y="870" as="sourcePoint"/>
-            <mxPoint x="1120" y="460" as="targetPoint"/>
+            <mxPoint x="1134" y="445" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
         <mxCell id="jQa1cLTpGH0gjAVw_I0r-1" value="" style="endArrow=classic;html=1;exitX=0.869;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="2ZlXiWUkkiC4Hj5eQH3b-12">
