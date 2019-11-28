@@ -1,5 +1,6 @@
 --Equipo 0
 
+DROP TABLE IF EXISTS Incidencia;
 DROP TABLE IF EXISTS Referencia;
 DROP TABLE IF EXISTS Ticket;
 DROP TABLE IF EXISTS ContratoAbono;
@@ -12,10 +13,9 @@ DROP TABLE IF EXISTS Valoracion;
 DROP TABLE IF EXISTS Trabajador;
 DROP TABLE IF EXISTS Vehiculo;
 DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS Persona;
 DROP TABLE IF EXISTS Aparcamiento;
 DROP TABLE IF EXISTS Globales;
-DROP TABLE IF EXISTS Persona;
-DROP TABLE IF EXISTS Incidencia;
 
 
 -- CREATE ASSERTION nplazasres(
@@ -208,7 +208,8 @@ CREATE TABLE Abono(
 	codigoplaza CHAR(20),
 	codigoparking CHAR(20),
 	PRIMARY KEY (numeroabono),
-	FOREIGN KEY (codigoplaza, codigoparking) REFERENCES PlazaResidencial(codigoplaza, codigoparking)
+	FOREIGN KEY (codigoplaza,codigoparking) REFERENCES PlazaResidencial(codigoplaza,codigoparking),
+	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	-- CHECK (sinreservanores)
 	-- CHECK (reservares)
 	);
@@ -281,33 +282,6 @@ INSERT INTO Aparcamiento VALUES ('111111M',3,0,false,false,false,false,1.8,1.6,2
 INSERT INTO Aparcamiento VALUES ('789214R',3,1,true,false,false,false,2.4,1.2,3,'wabu sabi');
 INSERT INTO Aparcamiento VALUES ('103647K',3,3,false,false,false,false,2.7,1.6,2.7,'uva');
 
-INSERT INTO Usuario VALUES ('71189567Q',true,100,0,false);
-INSERT INTO Usuario VALUES ('12438957J',true,50,0,false);
-INSERT INTO Usuario VALUES ('71183668S',true,70,1,false);
-INSERT INTO Usuario VALUES ('12348672V',false,80,0,false);
-INSERT INTO Usuario VALUES ('12439680G',true,90,1,false);
-INSERT INTO Usuario VALUES ('12439681W',true,20,1,false);
-INSERT INTO Usuario VALUES ('12439682K',true,10,0,false);
-INSERT INTO Usuario VALUES ('63459680P',true,10,1,true);
-INSERT INTO Usuario VALUES ('12432100G',false,20,0,false);
-INSERT INTO Usuario VALUES ('00000001A',false,60,0,true);
-INSERT INTO Usuario VALUES ('00000002B',true,14,0,false);
-INSERT INTO Usuario VALUES ('00000003C',true,88,0,false);
-INSERT INTO Usuario VALUES ('00000004D',true,13,1,false);
-INSERT INTO Usuario VALUES ('71188507B',true,12,0,false);
-
-INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
-INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
-INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','ECO','motocicleta');
-INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
-INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
-INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
-INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
-INSERT INTO Vehiculo VALUES ('1213-ACA','Challenger','CERO','autocaravana');
-INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
-INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
-INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
-
 INSERT INTO Persona VALUES ('Juan','Gatón Díez','71189567Q','Calle Luz, 8');
 INSERT INTO Persona VALUES ('Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C');
 INSERT INTO Persona VALUES ('Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B');
@@ -335,6 +309,33 @@ INSERT INTO Persona VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, P
 INSERT INTO Persona VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F');
 INSERT INTO Persona VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A');
 INSERT INTO Persona VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B');
+
+INSERT INTO Usuario VALUES ('71189567Q',true,100,0,false);
+INSERT INTO Usuario VALUES ('12438957J',true,50,0,false);
+INSERT INTO Usuario VALUES ('71183668S',true,70,1,false);
+INSERT INTO Usuario VALUES ('12348672V',false,80,0,false);
+INSERT INTO Usuario VALUES ('12439680G',true,90,1,false);
+INSERT INTO Usuario VALUES ('12439681W',true,20,1,false);
+INSERT INTO Usuario VALUES ('12439682K',true,10,0,false);
+INSERT INTO Usuario VALUES ('63459680P',true,10,1,true);
+INSERT INTO Usuario VALUES ('12432100G',false,20,0,false);
+INSERT INTO Usuario VALUES ('00000001A',false,60,0,true);
+INSERT INTO Usuario VALUES ('00000002B',true,14,0,false);
+INSERT INTO Usuario VALUES ('00000003C',true,88,0,false);
+INSERT INTO Usuario VALUES ('00000004D',true,13,1,false);
+INSERT INTO Usuario VALUES ('71188507B',true,12,0,false);
+
+INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
+INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
+INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','ECO','motocicleta');
+INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
+INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
+INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
+INSERT INTO Vehiculo VALUES ('1213-ACA','Challenger','CERO','autocaravana');
+INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
+INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
 
 INSERT INTO Trabajador VALUES ('71198567K',true);
 INSERT INTO Trabajador VALUES ('12376480L',false);
@@ -413,20 +414,20 @@ INSERT INTO PlazaRotacional VALUES (false, '648509K00002', false, false, false, 
 
 INSERT INTO Abono VALUES ('480974988W',false,'conreserva', '123456D00198', '123456D');
 INSERT INTO Abono VALUES ('509535735J',false,'sinreserva-nocturno', NULL, '398930Q');
-INSERT INTO Abono VALUES ('641292490Y',true,'conreserva', '111111M00115', '648509K');
-INSERT INTO Abono VALUES ('031544428P',false,'cesion', '111111M00100', '626873M');
+INSERT INTO Abono VALUES ('641292490Y',true,'conreserva', '111111M00115', '111111M');
+INSERT INTO Abono VALUES ('031544428P',false,'cesion', '111111M00100', '111111M');
 INSERT INTO Abono VALUES ('282840982C',true,'sinreserva-diurno', NULL, '592849H');
 INSERT INTO Abono VALUES ('282812342M',false,'sinreserva-diurno', NULL, '214749H');
-INSERT INTO Abono VALUES ('567840982A',false,'cesion', '626873M00076', '590348L');
-INSERT INTO Abono VALUES ('242834982M',true,'conreserva', '398930Q00125', '111111M');
-INSERT INTO Abono VALUES ('211140980L',false,'cesion', '648509K00215', '789214R');
+INSERT INTO Abono VALUES ('567840982A',false,'cesion', '626873M00076', '626873M');
+INSERT INTO Abono VALUES ('242834982M',true,'conreserva', '398930Q00125', '398930Q');
+INSERT INTO Abono VALUES ('211140980L',false,'cesion', '648509K00215', '648509K');
 INSERT INTO Abono VALUES ('012840752S',true,'sinreserva-nocturno', NULL, '103647K');
 INSERT INTO Abono VALUES ('281453982V',false,'cesion', '789214R00014', '789214R');
-INSERT INTO Abono VALUES ('012815432X',false,'cesion', '103647K00014', '111111M');
-INSERT INTO Abono VALUES ('456268510M',false,'conreserva', '103647K00097', '590348L');
+INSERT INTO Abono VALUES ('012815432X',false,'cesion', '103647K00014', '103647K');
+INSERT INTO Abono VALUES ('456268510M',false,'conreserva', '103647K00097', '103647K');
 INSERT INTO Abono VALUES ('284440756G',false,'sinreserva-diurno', NULL, '214749H');
-INSERT INTO Abono VALUES ('175236982B',false,'cesion', '214749H00025', '592849H');
-INSERT INTO Abono VALUES ('285678882C',false,'conreserva', '590348L00095', '626873M');
+INSERT INTO Abono VALUES ('175236982B',false,'cesion', '214749H00025', '214749H');
+INSERT INTO Abono VALUES ('285678882C',false,'conreserva', '590348L00095', '590348L');
 
 INSERT INTO ContratoLaboral VALUES ('123456D67K321','2017-01-03','2019-01-03','123456D','71198567K');
 INSERT INTO ContratoLaboral VALUES ('398930Q80L768','2016-03-18','2018-02-28','398930Q','12376480L');
