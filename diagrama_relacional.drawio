@@ -1,10 +1,10 @@
-<mxfile host="www.draw.io" modified="2019-11-28T16:33:34.530Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="CTR7TaRS0wkJMSTtXV8-" version="12.3.3" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-11-28T16:38:28.489Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" etag="TNBpgPmWnTUWZa4S714T" version="12.3.3" type="github" pages="1">
   <diagram id="I9IrVg-XSZB7Qn-Kv-cK" name="Page-1">
-    <mxGraphModel dx="2300" dy="1430" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1643" dy="1021" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-12" value="&lt;div&gt;Solicitud( &lt;u&gt;códigoSolicitud&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, NIF/CIF, acreditacionResidencia, fecha, estado, codigoParking, movilidadSostenible, docAcreditativo, matricula)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-12" value="&lt;div&gt;Solicitud( &lt;u&gt;códigoSolicitud&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, NIF/CIF, acreditacionResidencia, fecha, estado, codigoParking, movilidadSostenible, docAcreditativoVeh, matricula)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="720" y="360" width="1070" height="20" as="geometry"/>
         </mxCell>
         <mxCell id="2ZlXiWUkkiC4Hj5eQH3b-13" value="&lt;div align=&quot;left&quot;&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;Aparcamiento(&lt;/span&gt;&lt;u&gt;códigoParking&lt;/u&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt; numPlazasTotales, numPlazasOcupadas,&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;&amp;nbsp;espacioBicis, espacioVMU, admComerciantes, tarifaV, tarifaM, tarifaA&lt;/span&gt;&lt;span style=&quot;text-decoration: none&quot;&gt;, areaInfluencia, espacioVMUampliado)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="1" vertex="1">
