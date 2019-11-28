@@ -332,7 +332,7 @@ INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
 INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
 INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
 INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
-INSERT INTO Vehiculo VALUES ('1213-ACA','Challenger','CERO','autocaravana');
+INSERT INTO Vehiculo VALUES ('1312-ACA','Challenger','CERO','autocaravana');
 INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
 INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
 INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
