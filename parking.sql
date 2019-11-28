@@ -422,7 +422,26 @@ INSERT INTO Referencia VALUES ('2134-FCK', '567840982A', '2016-12-15', '2018-06-
 
 --	CONSULTAS
 --
+--	Vehículos con clasificación ambiental 'C' que han estado en un parking el '2019-11-11'.
 --	SELECT V.matricula, COUNT(*)
 --	FROM Ticket T NATURAL JOIN Vehiculo V
 --	WHERE V.distAmbiental='C' AND T.fecha='2019-11-11'
-
+--	GROUP BY V.matricula;
+--
+--	Plazas residenciales con coste superior a 100 que tengan recarga eléctrica.
+--	SELECT P.codigoPlaza
+--	FROM PlazaResidencial P
+--	WHERE P.coste>=100 AND P.recargaElectrica=TRUE;
+--
+--	Usuarios con abonos sin reserva.
+--	SELECT CA.nif
+--	FROM ContratoAbono CA NATURAL JOIN Abono A
+--	WHERE A.tipo_abono='sinreserva-diurno' OR
+--	A.tipo_abono='sinreserva-nocturno';
+--
+--	Aparcamiento con más plazas.
+--	SELECT A.codigoParking
+--	FROM Aparcamiento A
+--	WHERE A.numPlazasTotales>= ALL(
+--		SELECT A2.numPlazasTotales
+--		FROM Aparcamiento A2);
