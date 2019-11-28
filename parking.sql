@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS Globales;
 
 -- CREATE ASSERTION tarifasmaximas(
 -- 	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
--- 	CHECK ( EXISTS (SELECT * FROM Globales G 
+-- 	CHECK ( EXISTS (SELECT * FROM Globales G
 --		WHERE G.tarifamaxauto >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A) AND
 --		G.tarifamaxmoto >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A) AND
 --		G.tarifamaxcarav >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
@@ -70,7 +70,11 @@ DROP TABLE IF EXISTS Globales;
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('conreserva', 'cesion')
 --			AND Pres.recargaelectrica=FALSE))
 --	);
-
+-- CREATE ASSERTION solicitudessinacreditar(
+--		CHECK (NOT EXISTS (SELECT *
+--			FROM Solicitud S WHERE S.documentoacreditativovehiculo=FALSE AND S.estado_solicitud = 'aceptada'
+--		))
+--	);
 
 
 CREATE TABLE Globales(
@@ -82,7 +86,7 @@ CREATE TABLE Globales(
 CREATE TABLE Aparcamiento(
 	codigoparking CHAR(20),
 	numplazastotales INTEGER,
-       	numplazasocupadas INTEGER,
+  numplazasocupadas INTEGER,
 	espaciobicis BOOLEAN,
 	espaciovmubasico BOOLEAN,
 	espaciovmuampliado BOOLEAN,
@@ -98,24 +102,19 @@ CREATE TABLE Aparcamiento(
 	);
 
 CREATE TABLE Usuario(
-	nombre CHAR(20),
-	apellidos CHAR(80),
 	nif CHAR(9),
-	domicilio CHAR(40),
 	residente BOOLEAN,
 	fianza FLOAT,
 	numcuotasnopagadas INTEGER,
 	pmr BOOLEAN,
+	CHECK (numcuotasnopagadas < 2),
 	PRIMARY KEY (nif),
-	UNIQUE (nombre),
-	UNIQUE (apellidos),
-	UNIQUE (domicilio)
+	FOREIGN KEY (nif) REFERENCES Persona(nif)
 	);
 
 CREATE TABLE Vehiculo(
 	matricula CHAR(10),
 	modelo CHAR(30),
-	acreditacion BOOLEAN,
 	distintivoambiental CHAR(30),
 	CHECK (distintivoambiental IN ('CERO','ECO','B','C')),
 	tipo_vehiculo CHAR(15),
@@ -123,13 +122,19 @@ CREATE TABLE Vehiculo(
 	PRIMARY KEY (matricula)
 	);
 
-CREATE TABLE Trabajador(
+CREATE TABLE Persona(
 	nombre CHAR(20),
-	apellidos CHAR(80),
+	apellidos CHAR(40),
 	nif CHAR(9),
-	domicilio CHAR(40),
-	gestor BOOLEAN,
+	domicilio CHAR(80)
 	PRIMARY KEY (nif)
+);
+
+CREATE TABLE Trabajador(
+	nif CHAR(9),
+	gestor BOOLEAN,
+	PRIMARY KEY (nif),
+	FOREIGN KEY (nif) REFERENCES Persona(nif)
 	);
 
 CREATE TABLE Valoracion(
@@ -142,34 +147,31 @@ CREATE TABLE Valoracion(
 
 CREATE TABLE Solicitud(
 	codigosolicitud CHAR(20),
-	nombre CHAR(20),
-	apellidos CHAR(80),
-       	nif CHAR(9),
-	domicilio CHAR(40),
+  nif CHAR(9),
 	acreditacionresidencia BOOLEAN,
 	fecha DATE,
 	estado_solicitud CHAR(15),
+	documentoacreditativovehiculo BOOLEAN,
 	CHECK (estado_solicitud IN ('aceptada','pendiente','cancelada')),
 	codigoparking CHAR(20),
 	movilidadsostenible BOOLEAN,
+	matricula CHAR(10),
 	-- CHECK (nplazasres),
+	-- CHECK (solicitudessinacreditar),
 	PRIMARY KEY  (codigosolicitud),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking),
-	FOREIGN KEY (nombre) REFERENCES Usuario(nombre),
-	FOREIGN KEY (apellidos) REFERENCES Usuario(apellidos),
-	FOREIGN KEY (nif) REFERENCES Usuario(nif),
-	FOREIGN KEY (domicilio) REFERENCES Usuario(domicilio)
+	FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
+	FOREIGN KEY (nif) REFERENCES Persona(nif)
 	);
 
 CREATE TABLE PlazaResidencial(
 	coste FLOAT,
 	codigoplaza CHAR(20),
 	recargaelectrica BOOLEAN,
-	personaespecial BOOLEAN,
+	pmr BOOLEAN,
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
-	UNIQUE (codigoplaza),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
@@ -177,11 +179,10 @@ CREATE TABLE PlazaRotacional(
 	disuasorio BOOLEAN,
 	codigoplaza CHAR(20),
 	recargaelectrica BOOLEAN,
-	personaespecial BOOLEAN,
+	pmr BOOLEAN,
 	deshabilitado BOOLEAN,
 	codigoparking CHAR(20),
 	PRIMARY KEY (codigoplaza, codigoparking),
-	UNIQUE (codigoplaza),
 	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
 	);
 
@@ -240,11 +241,19 @@ CREATE TABLE Referencia(
 	numeroabono CHAR(20),
 	fechainicio DATE,
 	fechafin DATE,
-	PRIMARY KEY (matricula, numeroabono),
+	PRIMARY KEY (matricula, numeroabono, fechainicio),
 	FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
 	FOREIGN KEY (numeroabono) REFERENCES Abono(numeroabono)
 	);
 
+CREATE TABLE Incidencia(
+	nif CHAR(9),
+	codigoi CHAR(20),
+	descripcion CHAR(200),
+	fecha DATE,
+	PRIMARY KEY (codigoi),
+	FOREIGN KEY (nif) REFERENCES Usuario(nif)
+);
 
 INSERT INTO Globales VALUES (1000000000, 1000000000, 1000000000);
 
@@ -274,11 +283,17 @@ INSERT INTO Usuario VALUES ('Pablo','Andrés Kristos','00000003C','Calle Tres, 7
 INSERT INTO Usuario VALUES ('Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,0,0,false);
 INSERT INTO Usuario VALUES ('Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,0,0,false);
 
-INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan',true,'C','automovil');
-INSERT INTO Vehiculo VALUES ('6794-DXV','Audi',true,'B','automovil');
-INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha',true,'ECO','motocicleta');
-INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari',true,'CERO','automovil');
-INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo',true,'C','autocaravana');
+INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
+INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
+INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','ECO','motocicleta');
+INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
+INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
+INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
+INSERT INTO Vehiculo VALUES ('1213-ACA','Challenger','CERO','autocaravana');
+INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
+INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
 
 INSERT INTO Trabajador VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123',true);
 INSERT INTO Trabajador VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321',false);
@@ -307,20 +322,20 @@ INSERT INTO Valoracion VALUES ('111111M1114455873','111111M','correcto');
 INSERT INTO Valoracion VALUES ('789214R1474587566','789214R','hace frio den la calefaccion');
 INSERT INTO Valoracion VALUES ('103647K5555547855','103647K','pesimo');
 
-INSERT INTO Solicitud VALUES ('123456D74841277493','Juan','Gatón Díez','71189567Q','Calle Luz, 8',true,'2011-04-14','aceptada','123456D',false);
-INSERT INTO Solicitud VALUES ('398930Q77491833085','Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C',true,'2013-08-24','aceptada','398930Q',false);
-INSERT INTO Solicitud VALUES ('626873M29072047247','Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B',true,'2017-01-07','aceptada','626873M',false);
-INSERT INTO Solicitud VALUES ('648509K74851257493','Lucia','Casquete Manso','12348672V','Calle Tokio, 13',false,'2017-12-12','cancelada','648509K',true);
-INSERT INTO Solicitud VALUES ('123456D92218447982','Pedro','García Pérez','12439680G','Calle Aurora, 89',true,'2018-06-15','pendiente','123456D',false);
-INSERT INTO Solicitud VALUES ('626873M10101010145','Marcos','López Pérez','12439681W','Calle Uno, 9',true,'2014-06-15','aceptada','626873M',true);
-INSERT INTO Solicitud VALUES ('214749H00000000001','Yuri','García Fernandez','12439682K','Calle Dos, 99',true,'2019-06-15','pendiente','214749H',true);
-INSERT INTO Solicitud VALUES ('648509K11111111110','Carlos','Rojo Ramos','63459680P','Calle Cuatro, 81',true,'2018-04-15','cancelada','648509K',false);
-INSERT INTO Solicitud VALUES ('123456D45874587463','Lucas','Cabero Franco','12432100G','Calle Tres, 29',false,'2018-01-05','pendiente','123456D',false);
-INSERT INTO Solicitud VALUES ('111111M23789452145','Victor','Martinez Sanz','00000001A','Calle Cinco, 29',false,'2018-04-15','aceptada','111111M',true);
-INSERT INTO Solicitud VALUES ('214749H00001141254','Santiago','Ruiz López','00000002B','Calle Seis, 39',true,'2017-11-14','cancelada','214749H',false);
-INSERT INTO Solicitud VALUES ('626873M44444426658','Pablo','Andrés Kristos','00000003C','Calle Tres, 74',true,'2018-05-13','aceptada','626873M',false);
-INSERT INTO Solicitud VALUES ('214749H14526524189','Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,'2018-01-04','cancelada','214749H',true);
-INSERT INTO Solicitud VALUES ('103647K22225447364','Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,'2019-08-14','aceptada','103647K',false);
+INSERT INTO Solicitud VALUES ('123456D74841277493','71189567Q',true,'2011-04-14','aceptada','123456D',false);
+INSERT INTO Solicitud VALUES ('398930Q77491833085','12438957J',true,'2013-08-24','aceptada','398930Q',false);
+INSERT INTO Solicitud VALUES ('626873M29072047247','71183668S',true,'2017-01-07','aceptada','626873M',false);
+INSERT INTO Solicitud VALUES ('648509K74851257493','12348672V',false,'2017-12-12','cancelada','648509K',true);
+INSERT INTO Solicitud VALUES ('123456D92218447982','12439680G',true,'2018-06-15','pendiente','123456D',false);
+INSERT INTO Solicitud VALUES ('626873M10101010145','12439681W',true,'2014-06-15','aceptada','626873M',true);
+INSERT INTO Solicitud VALUES ('214749H00000000001','12439682K',true,'2019-06-15','pendiente','214749H',true);
+INSERT INTO Solicitud VALUES ('648509K11111111110','63459680P',true,'2018-04-15','cancelada','648509K',false);
+INSERT INTO Solicitud VALUES ('123456D45874587463','12432100G',false,'2018-01-05','pendiente','123456D',false);
+INSERT INTO Solicitud VALUES ('111111M23789452145','00000001A',false,'2018-04-15','aceptada','111111M',true);
+INSERT INTO Solicitud VALUES ('214749H00001141254','00000002B',true,'2017-11-14','cancelada','214749H',false);
+INSERT INTO Solicitud VALUES ('626873M44444426658','00000003C',true,'2018-05-13','aceptada','626873M',false);
+INSERT INTO Solicitud VALUES ('214749H14526524189','00000004D',true,'2018-01-04','cancelada','214749H',true);
+INSERT INTO Solicitud VALUES ('103647K22225447364','71188507B',true,'2019-08-14','aceptada','103647K',false);
 
 INSERT INTO PlazaResidencial VALUES (100, '123456D00198', true, true, true,'123456D');
 INSERT INTO PlazaResidencial VALUES (130.4, '398930Q00125', true, true, true,'398930Q');
@@ -405,27 +420,39 @@ INSERT INTO Ticket VALUES ('18:00','7391-FSL','2019-11-11','123456D',3,'19:00');
 INSERT INTO Ticket VALUES ('18:10','6794-DXV','2018-07-05','398930Q',2.3,'20:07');
 INSERT INTO Ticket VALUES ('19:00','0588-GJC','2013-04-27','648509K',0.4,'19:30');
 INSERT INTO Ticket VALUES ('08:03','5537-YUP','2000-01-12','590348L',8.3,'23:59');
-INSERT INTO Ticket VALUES ('01:48','2134-FCK','2010-09-18','103647K',2,'18:50');
+INSERT INTO Ticket VALUES ('01:48','2134-FCK','2010-09-18','103647K',2.4,'18:50');
+INSERT INTO Ticket VALUES ('12:48','7275-GTB','2011-02-12','789214R',1.5,'17:50');
+INSERT INTO Ticket VALUES ('11:51','0420-CFK','2016-07-12','111111M',2.13,'14:55');
+INSERT INTO Ticket VALUES ('10:48','1312-ACA','2016-11-17','590348L',2.45,'12:14');
+INSERT INTO Ticket VALUES ('04:20','1477-JKR','2018-01-30','214749H',0.96,'10:24');
+INSERT INTO Ticket VALUES ('17:12','0001-AAA','2016-08-10','592849H',0.01,'18:50');
+INSERT INTO Ticket VALUES ('14:01','0010-UWU','2018-04-22','214749H',100.02,'15:12');
 
 INSERT INTO Referencia VALUES ('7391-FSL', '480974988W', '2018-12-05', '2020-12-30');
 INSERT INTO Referencia VALUES ('6794-DXV', '509535735J', '2016-06-15', '2018-05-30');
 INSERT INTO Referencia VALUES ('0588-GJC', '282840982C', '2013-06-12', '2015-12-21');
 INSERT INTO Referencia VALUES ('5537-YUP', '282812342M', '2014-02-12', '2016-01-21');
-INSERT INTO Referencia VALUES ('2134-FCK', '567840982A', '2016-12-15', '2018-06-01');
+INSERT INTO Referencia VALUES ('2134-FCK', '567840982A', '2016-02-15', '2018-06-14');
+INSERT INTO Referencia VALUES ('7275-GTB', '641292490Y', '2018-10-05', '2020-07-24');
+INSERT INTO Referencia VALUES ('0420-CFK', '031544428P', '2014-06-03', '2016-12-01');
+INSERT INTO Referencia VALUES ('1312-ACA', '242834982M', '2017-05-24', '2018-12-16');
+INSERT INTO Referencia VALUES ('1477-JKR', '211140980L', '2016-03-31', '2018-04-01');
+INSERT INTO Referencia VALUES ('0001-AAA', '012840752S', '2013-01-12', '2014-06-15');
+INSERT INTO Referencia VALUES ('0010-UWU', '281453982V', '2016-09-04', '2018-06-02');
 
 --	%%%%% VISTAS %%%%%
 --
---	Esta vista simula una supuesta tabla a la que accede el gestor del aparcamiento. 
+--	Esta vista simula una supuesta tabla a la que accede el gestor del aparcamiento.
 --	Tiene varios campos restringidos por motivos de privacidad y accede a personas no PMR y residentes:
 --	CREATE VIEW VistaGestor(nombre, apellidos, nif) AS
 --	SELECT U.nombre, U.apellidos, U.nif, U.pmr
 --	FROM Usuario U
 --	WHERE U.pmr=FALSE AND U.residente=TRUE
 --
---	Esta vista simula una supuesta tabla a la que accede un trabajador (no gestor) del aparcamiento. 
---	Tiene varios campos restringidos por motivos de privacidad y 
+--	Esta vista simula una supuesta tabla a la que accede un trabajador (no gestor) del aparcamiento.
+--	Tiene varios campos restringidos por motivos de privacidad y
 --	accede a personas residentes que tienen todas las cuotas pagadas:
---	CREATE VIEW VistaTrabajador(nombre,apellidos,domicilio) AS 
+--	CREATE VIEW VistaTrabajador(nombre,apellidos,domicilio) AS
 --	SELECT U.nombre, U.apellidos, U.domicilio
 --	FROM Usuario U
 --	WHERE U.residente=TRUE AND U.numCuotasNoPagadas=0;
