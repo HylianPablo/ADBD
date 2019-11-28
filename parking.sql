@@ -46,20 +46,20 @@ DROP TABLE IF EXISTS Globales;
 
 -- CREATE ASSERTION tarifasmaximas(
 -- 	-- Las tarifas están acotadas superiormente por una tarifa máxima por cada tipo.
--- 	CHECK ( EXISTS (SELECT * FROM Globales G
+-- 	CHECK (EXISTS (SELECT * FROM Globales G
 --		WHERE G.tarifamaxauto >= ALL (SELECT A.tarifaautomovil FROM Aparcamiento A) AND
 --		G.tarifamaxmoto >= ALL (SELECT A.tarifamotocicleta FROM Aparcamiento A) AND
 --		G.tarifamaxcarav >= ALL (SELECT A.tarifaautocaravana FROM Aparcamiento A))
 -- 	);
 --
 -- CREATE ASSERTION plazaresidencialenparking(
---	CHECK ( NOT EXISTS( SELECT *
+--	CHECK (NOT EXISTS( SELECT *
 --		FROM Abono Ab NATURAL JOIN PlazaResidencial Pres
 --		WHERE Ab.codigoparking<>Pres.codigoparking))
 --	);
 --
 -- CREATE ASSERTION movilidadsosteniblerotacional(
---	CHECK ( NOT EXISTS (SELECT *
+--	CHECK (NOT EXISTS (SELECT *
 --		FROM Aparcamiento Ap NATURAL JOIN Abono Ab
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')
 --			AND NOT EXISTS (SELECT *
@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS Globales;
 --	);
 --
 -- CREATE ASSERTION movilidadsostenibleresidencial(
---	CHECK ( NOT EXISTS (SELECT *
+--	CHECK (NOT EXISTS (SELECT *
 --		FROM Abono Ab NATURAL JOIN PlazaResidencial Pres
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('conreserva', 'cesion')
 --			AND Pres.recargaelectrica=FALSE))
@@ -81,13 +81,13 @@ DROP TABLE IF EXISTS Globales;
 --	);
 --
 -- CREATE ASSERTION numplazastotalesok(
--- 	CHECK (NOT EXISTS (
--- 			SELECT * FROM Aparcamiento Ap
--- 			WHERE Ap.numplazastotales<>(SELECT COUNT(*)
--- 				FROM Aparcamiento Ap, PlazaResidencial Pres, PlazaRotacional Prot
--- 				WHERE Ap.codigoparking=Pres.codigoparking AND Ap.codigoparking=Prot.codigoparking)
--- 		))
--- );
+-- 	CHECK (NOT EXISTS(SELECT *
+-- 		FROM Aparcamiento Ap WHERE Ap.numplazastotales <> (
+-- 			(SELECT COUNT(*) FROM PlazaRotacional Prot
+-- 	        WHERE Ap.codigoparking=Prot.codigoparking) +
+-- 	        (SELECT COUNT(*) FROM PlazaResidencial Pres
+-- 	        WHERE Ap.codigoparking = Pres.codigoparking))))
+-- 	);
 
 
 CREATE TABLE Globales(
