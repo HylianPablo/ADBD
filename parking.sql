@@ -413,14 +413,24 @@ INSERT INTO Referencia VALUES ('0588-GJC', '282840982C', '2013-06-12', '2015-12-
 INSERT INTO Referencia VALUES ('5537-YUP', '282812342M', '2014-02-12', '2016-01-21');
 INSERT INTO Referencia VALUES ('2134-FCK', '567840982A', '2016-12-15', '2018-06-01');
 
---	VISTAS
+--	%%%%% VISTAS %%%%%
 --
+--	Esta vista simula una supuesta tabla a la que accede el gestor del aparcamiento. 
+--	Tiene varios campos restringidos por motivos de privacidad y accede a personas no PMR y residentes:
 --	CREATE VIEW VistaGestor(nombre, apellidos, nif) AS
---	SELECT U.nombre, U.apellidos, U.nif, U.PMR
+--	SELECT U.nombre, U.apellidos, U.nif, U.pmr
 --	FROM Usuario U
 --	WHERE U.pmr=FALSE AND U.residente=TRUE
+--
+--	Esta vista simula una supuesta tabla a la que accede un trabajador (no gestor) del aparcamiento. 
+--	Tiene varios campos restringidos por motivos de privacidad y 
+--	accede a personas residentes que tienen todas las cuotas pagadas:
+--	CREATE VIEW VistaTrabajador(nombre,apellidos,domicilio) AS 
+--	SELECT U.nombre, U.apellidos, U.domicilio
+--	FROM Usuario U
+--	WHERE U.residente=TRUE AND U.numCuotasNoPagadas=0;
 
---	CONSULTAS
+--	%%%%% CONSULTAS %%%%%
 --
 --	Vehículos con clasificación ambiental 'C' que han estado en un parking el '2019-11-11'.
 --	SELECT V.matricula, COUNT(*)
