@@ -14,6 +14,9 @@ DROP TABLE IF EXISTS Vehiculo;
 DROP TABLE IF EXISTS Usuario;
 DROP TABLE IF EXISTS Aparcamiento;
 DROP TABLE IF EXISTS Globales;
+DROP TABLE IF EXISTS Persona;
+DROP TABLE IF EXISTS Incidencia;
+
 
 -- CREATE ASSERTION nplazasres(
 -- 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
@@ -268,20 +271,20 @@ INSERT INTO Aparcamiento VALUES ('111111M',210,150,false,false,false,false,1.8,1
 INSERT INTO Aparcamiento VALUES ('789214R',125,63,true,false,false,false,2.4,1.2,3,'wabu sabi');
 INSERT INTO Aparcamiento VALUES ('103647K',238,162,false,false,false,false,2.7,1.6,2.7,'uva');
 
-INSERT INTO Usuario VALUES ('Juan','Gatón Díez','71189567Q','Calle Luz, 8',true,0,0,false);
-INSERT INTO Usuario VALUES ('Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C',true,0,0,false);
-INSERT INTO Usuario VALUES ('Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B',true,0,0,false);
-INSERT INTO Usuario VALUES ('Lucia','Casquete Manso','12348672V','Calle Tokio, 13',false,0,0,false);
-INSERT INTO Usuario VALUES ('Pedro','García Pérez','12439680G','Calle Aurora, 89',true,0,0,false);
-INSERT INTO Usuario VALUES ('Marcos','López Pérez','12439681W','Calle Uno, 9',true,0,0,false);
-INSERT INTO Usuario VALUES ('Yuri','García Fernandez','12439682K','Calle Dos, 99',true,0,0,false);
-INSERT INTO Usuario VALUES ('Carlos','Rojo Ramos','63459680P','Calle Cuatro, 81',true,0,0,true);
-INSERT INTO Usuario VALUES ('Lucas','Cabero Franco','12432100G','Calle Tres, 29',false,0,0,false);
-INSERT INTO Usuario VALUES ('Victor','Martinez Sanz','00000001A','Calle Cinco, 29',false,0,0,true);
-INSERT INTO Usuario VALUES ('Santiago','Ruiz López','00000002B','Calle Seis, 39',true,0,0,false);
-INSERT INTO Usuario VALUES ('Pablo','Andrés Kristos','00000003C','Calle Tres, 74',true,0,0,false);
-INSERT INTO Usuario VALUES ('Enrique','Lozano Moya','00000004D','Calle Dos, 29',true,0,0,false);
-INSERT INTO Usuario VALUES ('Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B',true,0,0,false);
+INSERT INTO Usuario VALUES ('71189567Q',true,100,0,false);
+INSERT INTO Usuario VALUES ('12438957J',true,50,0,false);
+INSERT INTO Usuario VALUES ('71183668S',true,70,1,false);
+INSERT INTO Usuario VALUES ('12348672V',false,80,0,false);
+INSERT INTO Usuario VALUES ('12439680G',true,90,1,false);
+INSERT INTO Usuario VALUES ('12439681W',true,20,1,false);
+INSERT INTO Usuario VALUES ('12439682K',true,10,0,false);
+INSERT INTO Usuario VALUES ('63459680P',true,10,1,true);
+INSERT INTO Usuario VALUES ('12432100G',false,20,0,false);
+INSERT INTO Usuario VALUES ('00000001A',false,60,0,true);
+INSERT INTO Usuario VALUES ('00000002B',true,14,0,false);
+INSERT INTO Usuario VALUES ('00000003C',true,88,0,false);
+INSERT INTO Usuario VALUES ('00000004D',true,13,1,false);
+INSERT INTO Usuario VALUES ('71188507B',true,12,0,false);
 
 INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
 INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
@@ -295,19 +298,47 @@ INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
 INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
 INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
 
-INSERT INTO Trabajador VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123',true);
-INSERT INTO Trabajador VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321',false);
-INSERT INTO Trabajador VALUES ('Alejandra','Abril Nieto','12453120N','Calle Sueño, 3, Piso 8C',false);
-INSERT INTO Trabajador VALUES ('Paula','Renero Taboada','12598675D','Calle Falsa , 8',true);
-INSERT INTO Trabajador VALUES ('Daniela','Romero Villacorta','12890564J','Calle Pizarra, 1, Piso 3A',false);
-INSERT INTO Trabajador VALUES ('Manuela','Sanz Sánchez','71169374G','Calle Doce, 10',false);
-INSERT INTO Trabajador VALUES ('Maria','Rosales Iglesias','01235789L','Calle Trece, 11',true);
-INSERT INTO Trabajador VALUES ('Antonio','Marínez Vazquez','14736925M','Calle Catorce, 14',false);
-INSERT INTO Trabajador VALUES ('Ana','San Juan Sanz','11223366C','Calle Once, 7, Piso 6B',false);
-INSERT INTO Trabajador VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, Piso 5G',false);
-INSERT INTO Trabajador VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F',false);
-INSERT INTO Trabajador VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A',false);
-INSERT INTO Trabajador VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B',true);
+INSERT INTO Persona VALUES ('Juan','Gatón Díez','71189567Q','Calle Luz, 8');
+INSERT INTO Persona VALUES ('Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C');
+INSERT INTO Persona VALUES ('Javier','Álvarez Alba','71183668S','Calle Quevedo, 2, Piso 7B');
+INSERT INTO Persona VALUES ('Lucia','Casquete Manso','12348672V','Calle Tokio, 13');
+INSERT INTO Persona VALUES ('Pedro','García Pérez','12439680G','Calle Aurora, 89');
+INSERT INTO Persona VALUES ('Marcos','López Pérez','12439681W','Calle Uno, 9');
+INSERT INTO Persona VALUES ('Yuri','García Fernandez','12439682K','Calle Dos, 99');
+INSERT INTO Persona VALUES ('Carlos','Rojo Ramos','63459680P','Calle Cuatro, 81');
+INSERT INTO Persona VALUES ('Lucas','Cabero Franco','12432100G','Calle Tres, 29');
+INSERT INTO Persona VALUES ('Victor','Martinez Sanz','00000001A','Calle Cinco, 29');
+INSERT INTO Persona VALUES ('Santiago','Ruiz López','00000002B','Calle Seis, 39');
+INSERT INTO Persona VALUES ('Pablo','Andrés Kristos','00000003C','Calle Tres, 74');
+INSERT INTO Persona VALUES ('Enrique','Lozano Moya','00000004D','Calle Dos, 29');
+INSERT INTO Persona VALUES ('Inma','Rodriguez Valdivieso','71188507B','Calle Universitaria, 14, Piso 8B');
+INSERT INTO Persona VALUES ('Manuel','Prieto Ruiz','71198567K','Calle Falsa ,123');
+INSERT INTO Persona VALUES ('Hugo','Gómez Hernández','12376480L','Calle Farsa, 321');
+INSERT INTO Persona VALUES ('Alejandra','Abril Nieto','12453120N','Calle Sueño, 3, Piso 8C');
+INSERT INTO Persona VALUES ('Paula','Renero Taboada','12598675D','Calle Falsa , 8');
+INSERT INTO Persona VALUES ('Daniela','Romero Villacorta','12890564J','Calle Pizarra, 1, Piso 3A');
+INSERT INTO Persona VALUES ('Manuela','Sanz Sánchez','71169374G','Calle Doce, 10');
+INSERT INTO Persona VALUES ('Maria','Rosales Iglesias','01235789L','Calle Trece, 11');
+INSERT INTO Persona VALUES ('Antonio','Marínez Vazquez','14736925M','Calle Catorce, 14');
+INSERT INTO Persona VALUES ('Ana','San Juan Sanz','11223366C','Calle Once, 7, Piso 6B');
+INSERT INTO Persona VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, Piso 5G');
+INSERT INTO Persona VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F');
+INSERT INTO Persona VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A');
+INSERT INTO Persona VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B');
+
+INSERT INTO Trabajador VALUES ('71198567K',true);
+INSERT INTO Trabajador VALUES ('12376480L',false);
+INSERT INTO Trabajador VALUES ('12453120N',false);
+INSERT INTO Trabajador VALUES ('12598675D',true);
+INSERT INTO Trabajador VALUES ('12890564J',false);
+INSERT INTO Trabajador VALUES ('71169374G',false);
+INSERT INTO Trabajador VALUES ('01235789L',true);
+INSERT INTO Trabajador VALUES ('14736925M',false);
+INSERT INTO Trabajador VALUES ('11223366C',false);
+INSERT INTO Trabajador VALUES ('03214789T',false);
+INSERT INTO Trabajador VALUES ('44556699N',false);
+INSERT INTO Trabajador VALUES ('75855555D',false);
+INSERT INTO Trabajador VALUES ('16748369B',true);
 
 INSERT INTO Valoracion VALUES ('123456D8753277532','123456D','correcto');
 INSERT INTO Valoracion VALUES ('123456D5319274742','123456D','malo');
@@ -322,20 +353,20 @@ INSERT INTO Valoracion VALUES ('111111M1114455873','111111M','correcto');
 INSERT INTO Valoracion VALUES ('789214R1474587566','789214R','hace frio den la calefaccion');
 INSERT INTO Valoracion VALUES ('103647K5555547855','103647K','pesimo');
 
-INSERT INTO Solicitud VALUES ('123456D74841277493','71189567Q',true,'2011-04-14','aceptada','123456D',false);
-INSERT INTO Solicitud VALUES ('398930Q77491833085','12438957J',true,'2013-08-24','aceptada','398930Q',false);
-INSERT INTO Solicitud VALUES ('626873M29072047247','71183668S',true,'2017-01-07','aceptada','626873M',false);
-INSERT INTO Solicitud VALUES ('648509K74851257493','12348672V',false,'2017-12-12','cancelada','648509K',true);
-INSERT INTO Solicitud VALUES ('123456D92218447982','12439680G',true,'2018-06-15','pendiente','123456D',false);
-INSERT INTO Solicitud VALUES ('626873M10101010145','12439681W',true,'2014-06-15','aceptada','626873M',true);
-INSERT INTO Solicitud VALUES ('214749H00000000001','12439682K',true,'2019-06-15','pendiente','214749H',true);
-INSERT INTO Solicitud VALUES ('648509K11111111110','63459680P',true,'2018-04-15','cancelada','648509K',false);
-INSERT INTO Solicitud VALUES ('123456D45874587463','12432100G',false,'2018-01-05','pendiente','123456D',false);
-INSERT INTO Solicitud VALUES ('111111M23789452145','00000001A',false,'2018-04-15','aceptada','111111M',true);
-INSERT INTO Solicitud VALUES ('214749H00001141254','00000002B',true,'2017-11-14','cancelada','214749H',false);
-INSERT INTO Solicitud VALUES ('626873M44444426658','00000003C',true,'2018-05-13','aceptada','626873M',false);
-INSERT INTO Solicitud VALUES ('214749H14526524189','00000004D',true,'2018-01-04','cancelada','214749H',true);
-INSERT INTO Solicitud VALUES ('103647K22225447364','71188507B',true,'2019-08-14','aceptada','103647K',false);
+INSERT INTO Solicitud VALUES ('123456D74841277493','71189567Q',true,'2011-04-14','aceptada',true,'123456D',false);
+INSERT INTO Solicitud VALUES ('398930Q77491833085','12438957J',true,'2013-08-24','aceptada',true,'398930Q',false);
+INSERT INTO Solicitud VALUES ('626873M29072047247','71183668S',true,'2017-01-07','aceptada',true,'626873M',false);
+INSERT INTO Solicitud VALUES ('648509K74851257493','12348672V',false,'2017-12-12','cancelada',false,'648509K',true);
+INSERT INTO Solicitud VALUES ('123456D92218447982','12439680G',true,'2018-06-15','pendiente',false,'123456D',false);
+INSERT INTO Solicitud VALUES ('626873M10101010145','12439681W',true,'2014-06-15','aceptada',true,'626873M',true);
+INSERT INTO Solicitud VALUES ('214749H00000000001','12439682K',true,'2019-06-15','pendiente',false,'214749H',true);
+INSERT INTO Solicitud VALUES ('648509K11111111110','63459680P',true,'2018-04-15','cancelada',false,'648509K',false);
+INSERT INTO Solicitud VALUES ('123456D45874587463','12432100G',false,'2018-01-05','pendiente',false,'123456D',false);
+INSERT INTO Solicitud VALUES ('111111M23789452145','00000001A',false,'2018-04-15','aceptada',true,'111111M',true);
+INSERT INTO Solicitud VALUES ('214749H00001141254','00000002B',true,'2017-11-14','cancelada',false,'214749H',false);
+INSERT INTO Solicitud VALUES ('626873M44444426658','00000003C',true,'2018-05-13','aceptada',true,'626873M',false);
+INSERT INTO Solicitud VALUES ('214749H14526524189','00000004D',true,'2018-01-04','cancelada',false,'214749H',true);
+INSERT INTO Solicitud VALUES ('103647K22225447364','71188507B',true,'2019-08-14','aceptada',true,'103647K',false);
 
 INSERT INTO PlazaResidencial VALUES (100, '123456D00198', true, true, true,'123456D');
 INSERT INTO PlazaResidencial VALUES (130.4, '398930Q00125', true, true, true,'398930Q');
@@ -439,6 +470,20 @@ INSERT INTO Referencia VALUES ('1312-ACA', '242834982M', '2017-05-24', '2018-12-
 INSERT INTO Referencia VALUES ('1477-JKR', '211140980L', '2016-03-31', '2018-04-01');
 INSERT INTO Referencia VALUES ('0001-AAA', '012840752S', '2013-01-12', '2014-06-15');
 INSERT INTO Referencia VALUES ('0010-UWU', '281453982V', '2016-09-04', '2018-06-02');
+
+INSERT INTO Incidencia VALUES ('71189567Q','12345L','Golpeo columna','2014-06-15');
+INSERT INTO Incidencia VALUES ('12438957J','00000J','Destruyo bano','2014-06-15');
+INSERT INTO Incidencia VALUES ('71183668S','00001S','Rompio bano','2014-06-15');
+INSERT INTO Incidencia VALUES ('12348672V','00010V','Golpeo columna','2014-06-15');
+INSERT INTO Incidencia VALUES ('12439680G','00011G','Golpeo columna','2014-06-15');
+INSERT INTO Incidencia VALUES ('63459680P','00100P','Golpeo coche','2014-06-15');
+INSERT INTO Incidencia VALUES ('12432100G','00101G','Golpeo columna','2014-06-15');
+INSERT INTO Incidencia VALUES ('00000001A','00110A','Golpeo bano','2014-06-15');
+INSERT INTO Incidencia VALUES ('00000002B','00111B','Golpeo barrera','2014-06-15');
+INSERT INTO Incidencia VALUES ('71188507B','01000B','Mancho bano','2014-06-15');
+INSERT INTO Incidencia VALUES ('71183668S','01001S','Golpeo columna','2014-06-15');
+INSERT INTO Incidencia VALUES ('00000004D','01010D','Golpeo columna','2014-06-15');
+
 
 --	%%%%% VISTAS %%%%%
 --
