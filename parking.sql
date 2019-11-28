@@ -1,6 +1,5 @@
 --Equipo 0
 
-DROP TABLE IF EXISTS Incidencia;
 DROP TABLE IF EXISTS Referencia;
 DROP TABLE IF EXISTS Ticket;
 DROP TABLE IF EXISTS ContratoAbono;
@@ -13,9 +12,10 @@ DROP TABLE IF EXISTS Valoracion;
 DROP TABLE IF EXISTS Trabajador;
 DROP TABLE IF EXISTS Vehiculo;
 DROP TABLE IF EXISTS Usuario;
-DROP TABLE IF EXISTS Persona;
 DROP TABLE IF EXISTS Aparcamiento;
 DROP TABLE IF EXISTS Globales;
+DROP TABLE IF EXISTS Persona;
+DROP TABLE IF EXISTS Incidencia;
 
 
 -- CREATE ASSERTION nplazasres(
@@ -73,11 +73,21 @@ DROP TABLE IF EXISTS Globales;
 --		WHERE Ab.movsostenible=TRUE AND Ab.tipo_abono IN ('conreserva', 'cesion')
 --			AND Pres.recargaelectrica=FALSE))
 --	);
+--
 -- CREATE ASSERTION solicitudessinacreditar(
 --		CHECK (NOT EXISTS (SELECT *
 --			FROM Solicitud S WHERE S.documentoacreditativovehiculo=FALSE AND S.estado_solicitud = 'aceptada'
 --		))
 --	);
+--
+-- CREATE ASSERTION numplazastotalesok(
+-- 	CHECK (NOT EXISTS (
+-- 			SELECT * FROM Aparcamiento Ap
+-- 			WHERE Ap.numplazastotales<>(SELECT COUNT(*)
+-- 				FROM Aparcamiento Ap, PlazaResidencial Pres, PlazaRotacional Prot
+-- 				WHERE Ap.codigoparking=Pres.codigoparking AND Ap.codigoparking=Prot.codigoparking)
+-- 		))
+-- );
 
 
 CREATE TABLE Globales(
@@ -89,7 +99,7 @@ CREATE TABLE Globales(
 CREATE TABLE Aparcamiento(
 	codigoparking CHAR(20),
 	numplazastotales INTEGER,
-  numplazasocupadas INTEGER,
+	numplazasocupadas INTEGER,
 	espaciobicis BOOLEAN,
 	espaciovmubasico BOOLEAN,
 	espaciovmuampliado BOOLEAN,
@@ -100,7 +110,8 @@ CREATE TABLE Aparcamiento(
 	areadeinfluencia CHAR(40),
 	PRIMARY KEY (codigoparking),
 	CHECK (numplazastotales > 0),
-	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado))
+	CHECK (NOT (NOT espaciovmubasico AND espaciovmuampliado)),
+	CHECK (numplazastotales >= numplazasocupadas)
 	-- CHECK (tarifasmaximas)
 	);
 
@@ -132,7 +143,6 @@ CREATE TABLE Vehiculo(
 	CHECK (tipo_vehiculo IN ('automovil','motocicleta','autocaravana')),
 	PRIMARY KEY (matricula)
 	);
-
 
 CREATE TABLE Trabajador(
 	nif CHAR(9),
@@ -198,8 +208,7 @@ CREATE TABLE Abono(
 	codigoplaza CHAR(20),
 	codigoparking CHAR(20),
 	PRIMARY KEY (numeroabono),
-	FOREIGN KEY (codigoplaza,codigoparking) REFERENCES PlazaResidencial(codigoplaza,codigoparking),
-	FOREIGN KEY (codigoparking) REFERENCES Aparcamiento(codigoparking)
+	FOREIGN KEY (codigoplaza, codigoparking) REFERENCES PlazaResidencial(codigoplaza, codigoparking)
 	-- CHECK (sinreservanores)
 	-- CHECK (reservares)
 	);
@@ -261,16 +270,43 @@ CREATE TABLE Incidencia(
 
 INSERT INTO Globales VALUES (1000000000, 1000000000, 1000000000);
 
-INSERT INTO Aparcamiento VALUES ('123456D',200,80,true,true,true,true,2.5,1.2,3,'chamartin');
-INSERT INTO Aparcamiento VALUES ('398930Q',200,90,true,true,false,false,2.3,1.1,2.9,'atocha');
-INSERT INTO Aparcamiento VALUES ('648509K',230,80,false,true,false,false,2,1,2.5,'plaza mayor');
-INSERT INTO Aparcamiento VALUES ('626873M',100,70,false,false,false,false,1.8,0.8,3.4,'puerta del sol');
-INSERT INTO Aparcamiento VALUES ('592849H',300,190,true,true,true,false,2.6,1.4,3.2,'cuatro quesos');
-INSERT INTO Aparcamiento VALUES ('214749H',300,186,true,true,true,true,2,1.4,3.2,'las ramblas');
-INSERT INTO Aparcamiento VALUES ('590348L',100,53,true,true,true,true,1.6,1.4,3.4,'las viudas');
-INSERT INTO Aparcamiento VALUES ('111111M',210,150,false,false,false,false,1.8,1.6,2.8,'parquesol');
-INSERT INTO Aparcamiento VALUES ('789214R',125,63,true,false,false,false,2.4,1.2,3,'wabu sabi');
-INSERT INTO Aparcamiento VALUES ('103647K',238,162,false,false,false,false,2.7,1.6,2.7,'uva');
+INSERT INTO Aparcamiento VALUES ('123456D',4,2,true,true,true,true,2.5,1.2,3,'chamartin');
+INSERT INTO Aparcamiento VALUES ('398930Q',2,2,true,true,false,false,2.3,1.1,2.9,'atocha');
+INSERT INTO Aparcamiento VALUES ('648509K',4,0,false,true,false,false,2,1,2.5,'plaza mayor');
+INSERT INTO Aparcamiento VALUES ('626873M',3,3,false,false,false,false,1.8,0.8,3.4,'puerta del sol');
+INSERT INTO Aparcamiento VALUES ('592849H',3,1,true,true,true,false,2.6,1.4,3.2,'cuatro quesos');
+INSERT INTO Aparcamiento VALUES ('214749H',3,2,true,true,true,true,2,1.4,3.2,'las ramblas');
+INSERT INTO Aparcamiento VALUES ('590348L',3,3,true,true,true,true,1.6,1.4,3.4,'las viudas');
+INSERT INTO Aparcamiento VALUES ('111111M',3,0,false,false,false,false,1.8,1.6,2.8,'parquesol');
+INSERT INTO Aparcamiento VALUES ('789214R',3,1,true,false,false,false,2.4,1.2,3,'wabu sabi');
+INSERT INTO Aparcamiento VALUES ('103647K',3,3,false,false,false,false,2.7,1.6,2.7,'uva');
+
+INSERT INTO Usuario VALUES ('71189567Q',true,100,0,false);
+INSERT INTO Usuario VALUES ('12438957J',true,50,0,false);
+INSERT INTO Usuario VALUES ('71183668S',true,70,1,false);
+INSERT INTO Usuario VALUES ('12348672V',false,80,0,false);
+INSERT INTO Usuario VALUES ('12439680G',true,90,1,false);
+INSERT INTO Usuario VALUES ('12439681W',true,20,1,false);
+INSERT INTO Usuario VALUES ('12439682K',true,10,0,false);
+INSERT INTO Usuario VALUES ('63459680P',true,10,1,true);
+INSERT INTO Usuario VALUES ('12432100G',false,20,0,false);
+INSERT INTO Usuario VALUES ('00000001A',false,60,0,true);
+INSERT INTO Usuario VALUES ('00000002B',true,14,0,false);
+INSERT INTO Usuario VALUES ('00000003C',true,88,0,false);
+INSERT INTO Usuario VALUES ('00000004D',true,13,1,false);
+INSERT INTO Usuario VALUES ('71188507B',true,12,0,false);
+
+INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
+INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
+INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','ECO','motocicleta');
+INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
+INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
+INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
+INSERT INTO Vehiculo VALUES ('1213-ACA','Challenger','CERO','autocaravana');
+INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
+INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
+INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
 
 INSERT INTO Persona VALUES ('Juan','Gatón Díez','71189567Q','Calle Luz, 8');
 INSERT INTO Persona VALUES ('Marta','Martín De la Fuente','12438957J','Calle Mango, 34, Piso 2C');
@@ -299,33 +335,6 @@ INSERT INTO Persona VALUES ('Eduardo','Ruiz Kim','03214789T','Calle Cinco, 88, P
 INSERT INTO Persona VALUES ('Alberto','Moya Sanz','44556699N','Calle Cortada, 63, Piso 4F');
 INSERT INTO Persona VALUES ('Carlos','Martinez Noé','75855555D','Calle Santa, 7, Piso 3A');
 INSERT INTO Persona VALUES ('Oksana','Konstatinidiq Pruk','16748369B','Calle Reyes Magos, 1, Piso 1B');
-
-INSERT INTO Usuario VALUES ('71189567Q',true,100,0,false);
-INSERT INTO Usuario VALUES ('12438957J',true,50,0,false);
-INSERT INTO Usuario VALUES ('71183668S',true,70,1,false);
-INSERT INTO Usuario VALUES ('12348672V',false,80,0,false);
-INSERT INTO Usuario VALUES ('12439680G',true,90,1,false);
-INSERT INTO Usuario VALUES ('12439681W',true,20,1,false);
-INSERT INTO Usuario VALUES ('12439682K',true,10,0,false);
-INSERT INTO Usuario VALUES ('63459680P',true,10,1,true);
-INSERT INTO Usuario VALUES ('12432100G',false,20,0,false);
-INSERT INTO Usuario VALUES ('00000001A',false,60,0,true);
-INSERT INTO Usuario VALUES ('00000002B',true,14,0,false);
-INSERT INTO Usuario VALUES ('00000003C',true,88,0,false);
-INSERT INTO Usuario VALUES ('00000004D',true,13,1,false);
-INSERT INTO Usuario VALUES ('71188507B',true,12,0,false);
-
-INSERT INTO Vehiculo VALUES ('7391-FSL','Nissan','C','automovil');
-INSERT INTO Vehiculo VALUES ('6794-DXV','Audi','B','automovil');
-INSERT INTO Vehiculo VALUES ('0588-GJC','Yamaha','ECO','motocicleta');
-INSERT INTO Vehiculo VALUES ('5537-YUP','Ferrari','CERO','automovil');
-INSERT INTO Vehiculo VALUES ('2134-FCK','Volvo','C','autocaravana');
-INSERT INTO Vehiculo VALUES ('7275-GTB','Seat','B','automovil');
-INSERT INTO Vehiculo VALUES ('0420-CFK','Mercedes','ECO','automovil');
-INSERT INTO Vehiculo VALUES ('1312-ACA','Challenger','CERO','autocaravana');
-INSERT INTO Vehiculo VALUES ('1477-JKR','Carthago','C','autocaravana');
-INSERT INTO Vehiculo VALUES ('0001-AAA','Tesla','B','automovil');
-INSERT INTO Vehiculo VALUES ('0010-UWU','Vespa','CERO','motocicleta');
 
 INSERT INTO Trabajador VALUES ('71198567K',true);
 INSERT INTO Trabajador VALUES ('12376480L',false);
@@ -404,20 +413,20 @@ INSERT INTO PlazaRotacional VALUES (false, '648509K00002', false, false, false, 
 
 INSERT INTO Abono VALUES ('480974988W',false,'conreserva', '123456D00198', '123456D');
 INSERT INTO Abono VALUES ('509535735J',false,'sinreserva-nocturno', NULL, '398930Q');
-INSERT INTO Abono VALUES ('641292490Y',true,'conreserva', '111111M00115', '111111M');
-INSERT INTO Abono VALUES ('031544428P',false,'cesion', '111111M00100', '111111M');
+INSERT INTO Abono VALUES ('641292490Y',true,'conreserva', '111111M00115', '648509K');
+INSERT INTO Abono VALUES ('031544428P',false,'cesion', '111111M00100', '626873M');
 INSERT INTO Abono VALUES ('282840982C',true,'sinreserva-diurno', NULL, '592849H');
 INSERT INTO Abono VALUES ('282812342M',false,'sinreserva-diurno', NULL, '214749H');
-INSERT INTO Abono VALUES ('567840982A',false,'cesion', '626873M00076', '626873M');
-INSERT INTO Abono VALUES ('242834982M',true,'conreserva', '398930Q00125', '398930Q');
-INSERT INTO Abono VALUES ('211140980L',false,'cesion', '648509K00215', '648509K');
+INSERT INTO Abono VALUES ('567840982A',false,'cesion', '626873M00076', '590348L');
+INSERT INTO Abono VALUES ('242834982M',true,'conreserva', '398930Q00125', '111111M');
+INSERT INTO Abono VALUES ('211140980L',false,'cesion', '648509K00215', '789214R');
 INSERT INTO Abono VALUES ('012840752S',true,'sinreserva-nocturno', NULL, '103647K');
 INSERT INTO Abono VALUES ('281453982V',false,'cesion', '789214R00014', '789214R');
-INSERT INTO Abono VALUES ('012815432X',false,'cesion', '103647K00014', '103647K');
-INSERT INTO Abono VALUES ('456268510M',false,'conreserva', '103647K00097', '103647K');
+INSERT INTO Abono VALUES ('012815432X',false,'cesion', '103647K00014', '111111M');
+INSERT INTO Abono VALUES ('456268510M',false,'conreserva', '103647K00097', '590348L');
 INSERT INTO Abono VALUES ('284440756G',false,'sinreserva-diurno', NULL, '214749H');
-INSERT INTO Abono VALUES ('175236982B',false,'cesion', '214749H00025', '214749H');
-INSERT INTO Abono VALUES ('285678882C',false,'conreserva', '590348L00095', '590348L');
+INSERT INTO Abono VALUES ('175236982B',false,'cesion', '214749H00025', '592849H');
+INSERT INTO Abono VALUES ('285678882C',false,'conreserva', '590348L00095', '626873M');
 
 INSERT INTO ContratoLaboral VALUES ('123456D67K321','2017-01-03','2019-01-03','123456D','71198567K');
 INSERT INTO ContratoLaboral VALUES ('398930Q80L768','2016-03-18','2018-02-28','398930Q','12376480L');
