@@ -1,24 +1,24 @@
 --Equipo 0
 
-DROP TABLE Solicitud;
-DROP TABLE Aparcamiento;
-DROP TABLE Valoracion;
-DROP TABLE Trabajdor;
-DROP TABLE ContratoAbono;
-DROP TABLE ContratoLaboral
-DROP TABLE Abono;
-DROP TABLE PlazaResidencial;
-DROP TABLE PlazaRotacional;
-DROP TABLE Ticket;
-DROP TABLE Vehiculo;
-DROP TABLE Referencia;
+DROP TABLE IF EXISTS Solicitud;
+DROP TABLE IF EXISTS Aparcamiento;
+DROP TABLE IF EXISTS Valoracion;
+DROP TABLE IF EXISTS Trabajdor;
+DROP TABLE IF EXISTS ContratoAbono;
+DROP TABLE IF EXISTS ContratoLaboral;
+DROP TABLE IF EXISTS Abono;
+DROP TABLE IF EXISTS PlazaResidencial;
+DROP TABLE IF EXISTS PlazaRotacional;
+DROP TABLE IF EXISTS Ticket;
+DROP TABLE IF EXISTS Vehiculo;
+DROP TABLE IF EXISTS Referencia;
 
 CREATE ASSERTION nplazasres(
 	-- Las solicitudes sólo pueden tener como objetivo aparcamientos con plazas residenciales.
 	CHECK (NOT EXISTS (SELECT *
 		FROM Solicitud S NATURAL JOIN Aparcamiento A
 		WHERE A.numplazastotales = (
-			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)
+			SELECT COUNT(*) FROM Aparcamiento A NATURAL JOIN PlazaRotacional PRot)))
 	);
 
 CREATE ASSERTION sinreservanores(
@@ -27,7 +27,7 @@ CREATE ASSERTION sinreservanores(
 	-- No pueden existir abonos "sin reserva diurno/nocturno" relacionados con plazas residenciales.
 	CHECK (NOT EXISTS (SELECT *
 		FROM Abono A NATURAL JOIN PlazaResidencial PRes
-		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno'))
+		WHERE A.tipo_abono IN ('sinreserva-diurno', 'sinreserva-nocturno')))
 	);
 
 CREATE ASSERTION reservares(
